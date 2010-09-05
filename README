@@ -1,2 +1,6 @@
 ## NOTHING HERE YET
 ## TODO
+#
+
+Compilation Command:
+gcc -g -Wall -Wextra -W -pedantic -lncurses *.c -o odin

@@ -1,5 +1,14 @@
-## NOTHING HERE YET
-## TODO
+# Odin is a mini project that some of my class mates and me are doing 
+# as a part of our academic requirements. 
+#
+# We are going to try and implement the MinMax and Alpha Beta Pruning techniques
+# to create two AI opponents to play against each other
+#
+# We intend to collect data on the two opponents, such as time taken per move, to 
+# compare the two techniques.
+# 
+# For more info, check synopsis.pdf in the root repository directory.
+# 
 #
 
 Compilation Command:

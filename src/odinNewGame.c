@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  odinCommon.h
+ *       Filename:  odinNewGame.c
  *
- *    Description:  common headers to be used in odin
+ *    Description:  This file has the functions that handle the "New Game" selection
  *
  *        Version:  1.0
- *        Created:  24/08/10 09:46:11
+ *        Created:  06/09/10 15:31:58
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -33,10 +33,22 @@
  *
  */
 
-#include <stdio.h>
+#include "odinNewGame.h"
 
-/* defining an easy debug message print function 
- * http://www.delorie.com/gnu/docs/gcc/cpp_17.html
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  odinNewGame
+ *  Description:  Handles the new game sub menu
+ *
+ *                Args :
+ *
+ *
+ *                returns : int
+ * =====================================================================================
  */
-
-
+int
+odinNewGame ()
+{
+    return 0;
+}		/* -----  end of function odinNewGame  ----- */

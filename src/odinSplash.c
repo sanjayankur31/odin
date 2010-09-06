@@ -62,8 +62,12 @@ odinSplash()
     /* get a new window */
     odinSplashWindow = newwin(odinSplashLines,odinSplashCols,(LINES - odinSplashLines)/2,(COLS - odinSplashCols)/2);
 
+    noecho();
+
     /* make a border around it */
     box(odinSplashWindow,0,0);
+
+    /*  print the stuff  */
     mvwprintw(odinSplashWindow,3,(odinSplashCols - strlen(odinSplashMessage[0]))/2,"%s",odinSplashMessage[0]);
     mvwprintw(odinSplashWindow,4,(odinSplashCols - strlen(odinSplashMessage[1]))/2,"%s",odinSplashMessage[1]);
     mvwprintw(odinSplashWindow,5,(odinSplashCols - strlen(odinSplashMessage[2]))/2,"%s",odinSplashMessage[2]);
@@ -72,7 +76,10 @@ odinSplash()
     mvwprintw(odinSplashWindow,9,(odinSplashCols - strlen(odinSplashMessage[5]))/2,"%s",odinSplashMessage[5]);
     mvwprintw(odinSplashWindow,10,(odinSplashCols - strlen(odinSplashMessage[6]))/2,"%s",odinSplashMessage[6]);
     mvwprintw(odinSplashWindow,odinSplashLines -2,(odinSplashCols - strlen(odinSplashMessage[7]))/2,"%s",odinSplashMessage[7]);
+
     wrefresh(odinSplashWindow);
+
+    echo();
 
 
     sleep(2);

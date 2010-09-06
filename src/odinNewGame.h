@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  odinCommon.h
+ *       Filename:  odinNewGame.h
  *
- *    Description:  common headers to be used in odin
+ *    Description:  Header to odinNewGame.c
  *
  *        Version:  1.0
- *        Created:  24/08/10 09:46:11
+ *        Created:  06/09/10 15:32:30
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -33,10 +33,11 @@
  *
  */
 
+
+int debug;
+
+#include "odinCommon.h"
+#include <unistd.h>
+#include <curses.h>
+#include <string.h>
 #include <stdio.h>
-
-/* defining an easy debug message print function 
- * http://www.delorie.com/gnu/docs/gcc/cpp_17.html
- */
-
-

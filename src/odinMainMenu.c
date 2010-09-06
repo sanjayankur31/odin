@@ -56,12 +56,14 @@
  * =====================================================================================
  */
 void
-odinMainMenuDraw (char *options[], WINDOW *odinMainMenuWindow,int odinMainMenuCols, int odinCurrentHighlight ,int odinStartRow)
+odinMainMenuDraw (char *options[], char *optionMessages[] , WINDOW *odinMainMenuWindow,int odinMainMenuCols, int odinCurrentHighlight ,int odinStartRow)
 {
     /*  Declarations  */
     int odinCurrentRow = 0;
     char **odinOptionsPtr;
     char *odinTextPtr;
+    char *odinMessagePtr;
+    int i;
 
     odinOptionsPtr = options;
     while(*odinOptionsPtr)
@@ -73,8 +75,22 @@ odinMainMenuDraw (char *options[], WINDOW *odinMainMenuWindow,int odinMainMenuCo
         odinTextPtr = options[odinCurrentRow];
         mvwprintw(odinMainMenuWindow,odinCurrentRow + odinStartRow,(odinMainMenuCols - strlen(odinTextPtr))/2, "%s",odinTextPtr);
 
+        /*  switch off the attribute  */
         if(odinCurrentRow == odinCurrentHighlight)
             wattroff(odinMainMenuWindow, A_STANDOUT);
+
+        /*  print the description  */
+        /* TODO : position the message properly */
+        if(odinCurrentRow == odinCurrentHighlight)
+        {
+            odinMessagePtr = optionMessages[odinCurrentRow];
+            for ( i = 2; i < odinMainMenuCols -1; i++)
+            {
+                
+                mvwaddch(odinMainMenuWindow,odinStartRow +8, i, ' ');
+            }
+            mvwprintw(odinMainMenuWindow,odinStartRow + 8, 2, "%c %s",'>', odinMessagePtr);
+        }
         
         odinCurrentRow++;
         odinOptionsPtr++;
@@ -113,6 +129,7 @@ odinMainMenu ()
      */
     char *odinMainMenuGreet[] = {"Main Menu", "=============" };
     char *odinMainMenuOptions[] = {"1.New Game", "2.Controls\\Documentation", "3.Options", "4.Quit", 0 };
+    char *odinOptionMessages[] = {"Start a new game", "See the program documentation", "Configure the options", "Quit the game",0};
 
     /*  only needed for counting max number of options  */
     char **odinOptions; 
@@ -195,7 +212,7 @@ odinMainMenu ()
         odinSelected = *odinMainMenuOptions[odinOptionSelected];
 
         /*  Draw with new high light  */
-        odinMainMenuDraw(odinMainMenuOptions, odinMainMenuWindow, odinMainMenuCols, odinOptionSelected, odinStartRow );
+        odinMainMenuDraw(odinMainMenuOptions, odinOptionMessages , odinMainMenuWindow, odinMainMenuCols, odinOptionSelected, odinStartRow );
 
         /*  Get keypress, remember, we use wgetch because we're not in stdscr anymore  */
         odinKey = wgetch(odinMainMenuWindow);

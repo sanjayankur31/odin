@@ -45,3 +45,12 @@ odinSplash();
 
 int 
 odinMainMenu();
+
+int 
+odinNewGame();
+
+int
+odinDocumentation();
+
+int 
+odinOptions();

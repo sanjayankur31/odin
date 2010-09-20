@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  odinNewGame.h
+ *       Filename:  odinDocumentation.c
  *
- *    Description:  Header to odinNewGame.c
+ *    Description:  
  *
  *        Version:  1.0
- *        Created:  06/09/10 15:32:30
+ *        Created:  20/09/10 14:50:07
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -34,13 +34,17 @@
  */
 
 
-int debug;
+static int debug;
+#include	"odinDocumentation.h"
 
-#include "odinCommon.h"
-#include <unistd.h>
-#include <curses.h>
-#include <string.h>
-#include <stdio.h>
-
-void
-odinMenuDraw (char *options[], char *optionMessages[] , WINDOW *odinMainMenuWindow,int odinMainMenuCols, int odinCurrentHighlight ,int odinStartRow);
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  odinDocumentation
+ *  Description:  
+ * =====================================================================================
+ */
+int
+odinDocumentation ( )
+{
+    return 0;
+}		/* -----  end of function odinDocumentation  ----- */

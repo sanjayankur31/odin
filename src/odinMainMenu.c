@@ -38,7 +38,7 @@
 
 /* 
  * ===  FUNCTION  ======================================================================
- *         Name:  odinMainMenuDraw
+ *         Name:  odinMenuDraw
  *  Description:  This method does the actual drawing. It is needed to implement the 
  *                highlighting.
  *
@@ -56,7 +56,7 @@
  * =====================================================================================
  */
 void
-odinMainMenuDraw (char *options[], char *optionMessages[] , WINDOW *odinMainMenuWindow,int odinMainMenuCols, int odinCurrentHighlight ,int odinStartRow)
+odinMenuDraw (char *options[], char *optionMessages[] , WINDOW *odinMainMenuWindow,int odinMainMenuCols, int odinCurrentHighlight ,int odinStartRow)
 {
     /*  Declarations  */
     int odinCurrentRow = 0;
@@ -97,7 +97,7 @@ odinMainMenuDraw (char *options[], char *optionMessages[] , WINDOW *odinMainMenu
     }
 
     wrefresh(odinMainMenuWindow);
-}		/* -----  end of function odinMainMenuDraw  ----- */
+}		/* -----  end of function odinMenuDraw  ----- */
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -145,7 +145,6 @@ odinMainMenu ()
 
     /* Variables needed for the highlighting */
     int odinMaxRow = 0;
-    int odinSelected;
     int odinKey = 0;
     int odinStartRow = 6;
 
@@ -208,11 +207,8 @@ odinMainMenu ()
             }
         }
 
-        /*  for the functions return value, I'll probably revamp this  */
-        odinSelected = *odinMainMenuOptions[odinOptionSelected];
-
         /*  Draw with new high light  */
-        odinMainMenuDraw(odinMainMenuOptions, odinOptionMessages , odinMainMenuWindow, odinMainMenuCols, odinOptionSelected, odinStartRow );
+        odinMenuDraw(odinMainMenuOptions, odinOptionMessages , odinMainMenuWindow, odinMainMenuCols, odinOptionSelected, odinStartRow );
 
         /*  Get keypress, remember, we use wgetch because we're not in stdscr anymore  */
         odinKey = wgetch(odinMainMenuWindow);
@@ -222,9 +218,10 @@ odinMainMenu ()
     echo();
 
     if(odinKey == 'q')
-        odinSelected = 'q';
+        odinOptionSelected = 3;
 
-    return(odinSelected);
+
+    return(odinOptionSelected +1);
 
 }		/* -----  end of function odinMainMenu  ----- */
 

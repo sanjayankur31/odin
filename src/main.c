@@ -51,17 +51,41 @@
  */
 int 
 main(int argc, char **argv){
+    int odinSelectedOption = 0;
 
     /* Initialize the ncurses library */
     initscr();
+
+    /*  invisible cursor  */
+    curs_set(0);
 
     /* display the splash */
     odinSplash();
     refresh();
 
-    /* display the main menu */
-    odinMainMenu();
+    /* display the main menu : I can remove this variable */
+    odinSelectedOption = odinMainMenu();
 
+    switch(odinSelectedOption)
+    {
+        case 1: 
+            odinNewGame();
+            break;
+
+        case 2: 
+            odinDocumentation();
+            break;
+
+        case 3: 
+            odinOptions();
+            break;       
+        
+        default:
+            break;        
+    }
+
+    /*  invisible cursor  */
+    curs_set(1);
     endwin();
 	return 0;
 }		/* -----  end of function main  ----- */

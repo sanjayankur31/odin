@@ -47,7 +47,8 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_odin_OBJECTS = odin-main.$(OBJEXT) odin-odinMainMenu.$(OBJEXT) \
-	odin-odinNewGame.$(OBJEXT) odin-odinSplash.$(OBJEXT)
+	odin-odinNewGame.$(OBJEXT) odin-odinSplash.$(OBJEXT) \
+	odin-odinDocumentation.$(OBJEXT) odin-odinOptions.$(OBJEXT)
 odin_OBJECTS = $(am_odin_OBJECTS)
 odin_LDADD = $(LDADD)
 odin_LINK = $(CCLD) $(odin_CFLAGS) $(CFLAGS) $(odin_LDFLAGS) \
@@ -154,9 +155,13 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 odin_SOURCES = main.c  odinMainMenu.c  odinNewGame.c  odinSplash.c \
-			   main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h
+			   odinDocumentation.c odinOptions.c \
+			   main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h \
+			   odinDocumentation.h odinOptions.h
 
-noinst_HEADERS = main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h
+noinst_HEADERS = main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h \
+				 odinDocumentation.h odinOptions.h
+
 
 # AM_CFLAGS = 
 odin_CFLAGS = -DDATADIR=\"$(datadir)\"   
@@ -243,8 +248,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/odin-main.Po
+include ./$(DEPDIR)/odin-odinDocumentation.Po
 include ./$(DEPDIR)/odin-odinMainMenu.Po
 include ./$(DEPDIR)/odin-odinNewGame.Po
+include ./$(DEPDIR)/odin-odinOptions.Po
 include ./$(DEPDIR)/odin-odinSplash.Po
 
 .c.o:
@@ -316,6 +323,34 @@ odin-odinSplash.obj: odinSplash.c
 #	source='odinSplash.c' object='odin-odinSplash.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinSplash.obj `if test -f 'odinSplash.c'; then $(CYGPATH_W) 'odinSplash.c'; else $(CYGPATH_W) '$(srcdir)/odinSplash.c'; fi`
+
+odin-odinDocumentation.o: odinDocumentation.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -MT odin-odinDocumentation.o -MD -MP -MF $(DEPDIR)/odin-odinDocumentation.Tpo -c -o odin-odinDocumentation.o `test -f 'odinDocumentation.c' || echo '$(srcdir)/'`odinDocumentation.c
+	$(am__mv) $(DEPDIR)/odin-odinDocumentation.Tpo $(DEPDIR)/odin-odinDocumentation.Po
+#	source='odinDocumentation.c' object='odin-odinDocumentation.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinDocumentation.o `test -f 'odinDocumentation.c' || echo '$(srcdir)/'`odinDocumentation.c
+
+odin-odinDocumentation.obj: odinDocumentation.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -MT odin-odinDocumentation.obj -MD -MP -MF $(DEPDIR)/odin-odinDocumentation.Tpo -c -o odin-odinDocumentation.obj `if test -f 'odinDocumentation.c'; then $(CYGPATH_W) 'odinDocumentation.c'; else $(CYGPATH_W) '$(srcdir)/odinDocumentation.c'; fi`
+	$(am__mv) $(DEPDIR)/odin-odinDocumentation.Tpo $(DEPDIR)/odin-odinDocumentation.Po
+#	source='odinDocumentation.c' object='odin-odinDocumentation.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinDocumentation.obj `if test -f 'odinDocumentation.c'; then $(CYGPATH_W) 'odinDocumentation.c'; else $(CYGPATH_W) '$(srcdir)/odinDocumentation.c'; fi`
+
+odin-odinOptions.o: odinOptions.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -MT odin-odinOptions.o -MD -MP -MF $(DEPDIR)/odin-odinOptions.Tpo -c -o odin-odinOptions.o `test -f 'odinOptions.c' || echo '$(srcdir)/'`odinOptions.c
+	$(am__mv) $(DEPDIR)/odin-odinOptions.Tpo $(DEPDIR)/odin-odinOptions.Po
+#	source='odinOptions.c' object='odin-odinOptions.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinOptions.o `test -f 'odinOptions.c' || echo '$(srcdir)/'`odinOptions.c
+
+odin-odinOptions.obj: odinOptions.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -MT odin-odinOptions.obj -MD -MP -MF $(DEPDIR)/odin-odinOptions.Tpo -c -o odin-odinOptions.obj `if test -f 'odinOptions.c'; then $(CYGPATH_W) 'odinOptions.c'; else $(CYGPATH_W) '$(srcdir)/odinOptions.c'; fi`
+	$(am__mv) $(DEPDIR)/odin-odinOptions.Tpo $(DEPDIR)/odin-odinOptions.Po
+#	source='odinOptions.c' object='odin-odinOptions.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinOptions.obj `if test -f 'odinOptions.c'; then $(CYGPATH_W) 'odinOptions.c'; else $(CYGPATH_W) '$(srcdir)/odinOptions.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

@@ -1,4 +1,4 @@
-odin-odinNewGame.o: odinNewGame.c odinNewGame.h odinCommon.h \
+odin-odinMenus.o: odinMenus.c odinMenus.h odinCommon.h \
  /usr/include/unistd.h /usr/include/features.h /usr/include/sys/cdefs.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-64.h /usr/include/bits/posix_opt.h \
@@ -17,7 +17,7 @@ odin-odinNewGame.o: odinNewGame.c odinNewGame.h odinCommon.h \
  /usr/include/endian.h /usr/include/bits/endian.h \
  /usr/include/bits/byteswap.h /usr/include/stdlib.h
 
-odinNewGame.h:
+odinMenus.h:
 
 odinCommon.h:
 

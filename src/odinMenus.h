@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  main.c
+ *       Filename:  odinMenus.h
  *
- *    Description:  the main file to odin
+ *    Description:  header to odinMenus.c
  *
  *        Version:  1.0
- *        Created:  24/08/10 09:38:52
+ *        Created:  20/09/10 18:55:46
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -33,40 +33,7 @@
  *
  */
 
-#include	"main.h"
 
-/* 
- * ===  FUNCTION  ======================================================================
- *         Name:  main
- *  Description:  the main method to odin
- *                  - args:
- *                      int argc : number of command line arguments
- *                      char **argv : argument list
- *
- *                  - returns int
- *                      0 if all goes well
- *                      non zero otherwise
- *                      
- * =====================================================================================
- */
-int 
-main(int argc, char **argv){
-    /* Initialize the ncurses library */
-    initscr();
+#include	"odinCommon.h"
 
-    /*  invisible cursor  */
-    curs_set(0);
-
-    /* display the splash */
-    odinSplash();
-    refresh();
-    
-    odinMainMenu();
-
-    /*  invisible cursor  */
-    curs_set(1);
-    endwin();
-	return 0;
-}		/* -----  end of function main  ----- */
-
-
+int debug;

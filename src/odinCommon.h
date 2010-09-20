@@ -33,10 +33,8 @@
  *
  */
 
+#include <unistd.h>
+#include <curses.h>
+#include <string.h>
 #include <stdio.h>
-
-/* defining an easy debug message print function 
- * http://www.delorie.com/gnu/docs/gcc/cpp_17.html
- */
-
 

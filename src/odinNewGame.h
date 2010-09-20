@@ -34,13 +34,13 @@
  */
 
 
-int debug;
 
 #include "odinCommon.h"
-#include <unistd.h>
-#include <curses.h>
-#include <string.h>
-#include <stdio.h>
+
+int debug;
 
 void
 odinMenuDraw (char *options[], char *optionMessages[] , WINDOW *odinMainMenuWindow,int odinMainMenuCols, int odinCurrentHighlight ,int odinStartRow);
+
+int
+odinMenusGeneric (WINDOW **odinMenusGenericWindow, char **odinMenusGenericGreet, char **odinMenusGenericOptions, char **odinGenericMessages );

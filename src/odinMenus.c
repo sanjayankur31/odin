@@ -228,6 +228,8 @@ odinMenusGeneric (WINDOW **odinMenusGenericWindow, char **odinMenusGenericGreet,
         odinOptionSelected = 3;
 
 
+    wclear(*odinMenusGenericWindow);
+    delwin(*odinMenusGenericWindow);
     return(odinOptionSelected +1);
 
 }		/* -----  end of function odinMenusGeneric  ----- */

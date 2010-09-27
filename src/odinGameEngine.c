@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  odinNewGame.c
+ *       Filename:  odinGameEngine.c
  *
- *    Description:  This file has the functions that handle the "New Game" selection
+ *    Description:  the main game engine
  *
  *        Version:  1.0
- *        Created:  06/09/10 15:31:58
+ *        Created:  27/09/10 14:17:29
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -33,38 +33,59 @@
  *
  */
 
-#include "odinNewGame.h"
+#include	"odinGameEngine.h"
 
+enum odinMatrixState {FREE,A,B};
+
+struct odinGameMatrix
+{
+    int value;
+    int flag;
+};
 
 /* 
  * ===  FUNCTION  ======================================================================
- *         Name:  odinNewGame
- *  Description:  Handles the new game sub menu
- *                TODO : can this and the main menu be combined into one? Too much code 
- *                wastage here.
- *
- *                Args : NONE
- *
- *
- *                returns : int
- *                          - odinOptionSelected : selected menu option
+ *         Name:  odinGameEngine
+ *  Description:  PARAMETERS : TODO  
  * =====================================================================================
  */
 int
-odinNewGame ()
-{   
-    /* Declarations */
-    WINDOW *odinNewGameWindow;
+odinGameEngine ()
+{
+    WINDOW *odinGameMatrix;
+    WINDOW *odinGamePositions[5][5];
+    int odinGameMatrixLines = 20;
+    int odinGameMatrixCols = 50;
+    int i,j;
 
-    char *odinNewGameGreet[] = {"Game Menu", "=============" };
-    char *odinNewGameOptions[] = {"1.Single Player", "2.Two Player", "3.Demo", "4.Back", 0 };
-    char *odinNewGameMessages[] = {"Start a single player game", "Start a two player game", "View an AI vs AI demo", "Go back to main menu",0};
+    odinGameMatrix = newwin(odinGameMatrixLines,odinGameMatrixCols,(LINES - odinGameMatrixLines)/2,(COLS - odinGameMatrixCols)/2);
+ 
+    if(odinGameMatrix == NULL)
+    {
+        printf("ERROR :( :(");
+        return -1;
+    }
 
-    int odinMenuSelect = odinMenusGeneric(&odinNewGameWindow, odinNewGameGreet, odinNewGameOptions, odinNewGameMessages);
+/*     box(odinGameMatrix,0,0);
+ */
 
-    /* use a switch later */
-    odinGameEngine ();
+    for( i  = 0; i< 5; i++)
+    {
+        for(j = 0; j< 5; j++)
+        {
+            odinGamePositions[i][j] = derwin(odinGameMatrix,4, 10,i*4, j*10);
+            if(odinGamePositions[i][j] == NULL)
+            {
+                printf("MEOW!!");
+                return -1;
+            }
+            box(odinGamePositions[i][j],0,0);
+        }
 
+    }
+
+    wrefresh(odinGameMatrix);
 
     return 0;
-}		/* -----  end of function odinNewGame  ----- */
+
+}		/* -----  end of function odinGameEngine  ----- */

@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  odinCommon.h
+ *       Filename:  odinGameEngine.h
  *
- *    Description:  common headers to be used in odin
+ *    Description:  
  *
  *        Version:  1.0
- *        Created:  24/08/10 09:46:11
+ *        Created:  27/09/10 14:17:29
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -33,11 +33,5 @@
  *
  */
 
-#include <unistd.h>
-#include <curses.h>
-#include <string.h>
-#include <stdio.h>
-
-/* odin_FG_BG  */
-enum odinColors {odin_BLACK_WHITE,odin_WHITE_RED,odin_WHITE_BLUE};
+#include "odinCommon.h"
 

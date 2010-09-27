@@ -44,3 +44,6 @@ odinMenuDraw (char *options[], char *optionMessages[] , WINDOW *odinMainMenuWind
 
 int
 odinMenusGeneric (WINDOW **odinMenusGenericWindow, char **odinMenusGenericGreet, char **odinMenusGenericOptions, char **odinGenericMessages );
+
+int
+odinGameEngine ();

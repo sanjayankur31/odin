@@ -35,3 +35,29 @@
 
 #include "odinCommon.h"
 
+static gint debug;
+
+/*-----------------------------------------------------------------------------
+ * This enum is used to specify the state of a single board loacation
+ *-----------------------------------------------------------------------------*/
+enum odinMatrixState {FREE,A,B};
+
+/*-----------------------------------------------------------------------------
+ *  This struct signifies the GameBoard. 
+ *  A two dimensional array of this structure will hold my position states
+ *  in conjunction with the enum.
+ *-----------------------------------------------------------------------------*/
+struct odinGameBoard
+{
+    gint value;
+    gint flag;
+};
+
+/*-----------------------------------------------------------------------------
+ *  Function prototypes : The functions have elaborate comments describing them
+ *-----------------------------------------------------------------------------*/
+gint
+odinDrawBoard ();
+
+gint
+odinGameEngine ();

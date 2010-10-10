@@ -35,22 +35,20 @@
 
 #include	"odinGameEngine.h"
 
-enum odinMatrixState {FREE,A,B};
-
-struct odinGameMatrix
-{
-    gint value;
-    gint flag;
-};
 
 /* 
  * ===  FUNCTION  ======================================================================
- *         Name:  odinGameEngine
- *  Description:  PARAMETERS : TODO  
+ *         Name:  odinDrawBoard
+ *  Description:  This method will create the updated board.
+ *                  - args:
+ *                
+ *
+ *                returns : gint
+ *                  - 0 on success, non zero otherwise
  * =====================================================================================
  */
 gint
-odinGameEngine ()
+odinDrawBoard ()
 {
     WINDOW *odinGameMatrix;
     WINDOW *odinGamePositions[5][5];
@@ -85,7 +83,45 @@ odinGameEngine ()
     }
 
     wrefresh(odinGameMatrix);
+    return 0;
+}		/* -----  end of function odinDrawBoard  ----- */
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  odinGameEngine
+ *  Description:  The main game engine
+ * =====================================================================================
+ */
+gint
+odinGameEngine ()
+{
+    struct odinGameBoard **boardState;
+    int i,j;
+
+
+    boardState = malloc(5* sizeof(struct odinGameBoard *));
+
+    if(boardState == NULL)
+    {
+        g_error("Error allocating memory to boardState");
+    }
+
+    for(i = 0; i< 5; i++)
+    {
+        boardState[i] = malloc(5 * sizeof(struct odinGameBoard));
+        if(boardState[i] == NULL)
+        {
+            g_error("Error allocating memory to boardState[i]");
+        }
+
+        /*-----------------------------------------------------------------------------
+         *  Initialize to all of it to zero
+         *-----------------------------------------------------------------------------*/
+        memset(boardState[i],0,(5* sizeof(struct odinGameBoard)));
+    }
+
+
+    odinDrawBoard ();
     return 0;
 
 }		/* -----  end of function odinGameEngine  ----- */

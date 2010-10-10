@@ -46,21 +46,21 @@
  *                Args : NONE
  *
  *
- *                returns : int
+ *                returns : gint
  *                          - odinOptionSelected : selected menu option
  * =====================================================================================
  */
-int
+gint
 odinNewGame ()
 {   
     /* Declarations */
     WINDOW *odinNewGameWindow;
 
-    char *odinNewGameGreet[] = {"Game Menu", "=============" };
-    char *odinNewGameOptions[] = {"1.Single Player", "2.Two Player", "3.Demo", "4.Back", 0 };
-    char *odinNewGameMessages[] = {"Start a single player game", "Start a two player game", "View an AI vs AI demo", "Go back to main menu",0};
+    gchar *odinNewGameGreet[] = {"Game Menu", "=============" };
+    gchar *odinNewGameOptions[] = {"1.Single Player", "2.Two Player", "3.Demo", "4.Back", 0 };
+    gchar *odinNewGameMessages[] = {"Start a single player game", "Start a two player game", "View an AI vs AI demo", "Go back to main menu",0};
 
-    int odinMenuSelect = odinMenusGeneric(&odinNewGameWindow, odinNewGameGreet, odinNewGameOptions, odinNewGameMessages);
+    gint odinMenuSelect = odinMenusGeneric(&odinNewGameWindow, odinNewGameGreet, odinNewGameOptions, odinNewGameMessages);
 
     /* use a switch later */
     odinGameEngine ();

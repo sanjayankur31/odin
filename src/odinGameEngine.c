@@ -39,8 +39,8 @@ enum odinMatrixState {FREE,A,B};
 
 struct odinGameMatrix
 {
-    int value;
-    int flag;
+    gint value;
+    gint flag;
 };
 
 /* 
@@ -49,14 +49,14 @@ struct odinGameMatrix
  *  Description:  PARAMETERS : TODO  
  * =====================================================================================
  */
-int
+gint
 odinGameEngine ()
 {
     WINDOW *odinGameMatrix;
     WINDOW *odinGamePositions[5][5];
-    int odinGameMatrixLines = 20;
-    int odinGameMatrixCols = 50;
-    int i,j;
+    gint odinGameMatrixLines = 20;
+    gint odinGameMatrixCols = 50;
+    gint i,j;
 
     odinGameMatrix = newwin(odinGameMatrixLines,odinGameMatrixCols,(LINES - odinGameMatrixLines)/2,(COLS - odinGameMatrixCols)/2);
  

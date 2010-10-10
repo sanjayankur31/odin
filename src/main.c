@@ -40,17 +40,17 @@
  *         Name:  main
  *  Description:  the main method to odin
  *                  - args:
- *                      int argc : number of command line arguments
- *                      char **argv : argument list
+ *                      gint argc : number of command line arguments
+ *                      gchar **argv : argument list
  *
- *                  - returns int
+ *                  - returns gint
  *                      0 if all goes well
  *                      non zero otherwise
  *                      
  * =====================================================================================
  */
-int 
-main(int argc, char **argv){
+gint 
+main(gint argc, gchar **argv){
     /* Initialize the ncurses library */
     initscr();
 

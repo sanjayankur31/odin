@@ -34,7 +34,6 @@
  */
 
 
-static int debug;
 #include	"odinDocumentation.h"
 
 /* 
@@ -43,7 +42,7 @@ static int debug;
  *  Description:  
  * =====================================================================================
  */
-int
+gint
 odinDocumentation ( )
 {
     return 0;

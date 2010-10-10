@@ -45,13 +45,13 @@
  *
  *                  -args: NONE
  *
- *                  - returns: int
+ *                  - returns: gint
  *                      the index of selected option
  *                      -ve on error
  *
  * =====================================================================================
  */
-int
+gint
 odinMainMenu ()
 {
     /*  Declarations  */
@@ -65,12 +65,12 @@ odinMainMenu ()
      * Options ?
      * Quit
      */
-    char *odinMainMenuGreet[] = {"Main Menu", "=============" };
-    char *odinMainMenuOptions[] = {"1.New Game", "2.Controls\\Documentation", "3.Options", "4.Quit", 0 };
-    char *odinOptionMessages[] = {"Start a new game", "See the program documentation", "Configure the options", "Quit the game",0};
+    gchar *odinMainMenuGreet[] = {"Main Menu", "=============" };
+    gchar *odinMainMenuOptions[] = {"1.New Game", "2.Controls\\Documentation", "3.Options", "4.Quit", 0 };
+    gchar *odinOptionMessages[] = {"Start a new game", "See the program documentation", "Configure the options", "Quit the game",0};
     WINDOW *odinMainMenuWindow;
 
-    int odinSelectedOption = odinMenusGeneric(&odinMainMenuWindow, odinMainMenuGreet, odinMainMenuOptions, odinOptionMessages);
+    gint odinSelectedOption = odinMenusGeneric(&odinMainMenuWindow, odinMainMenuGreet, odinMainMenuOptions, odinOptionMessages);
 
     switch(odinSelectedOption)
     {

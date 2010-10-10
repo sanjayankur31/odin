@@ -34,10 +34,7 @@
  */
 
 
-int debug;
 
 #include "odinCommon.h"
-#include <unistd.h>
-#include <curses.h>
-#include <string.h>
+gint debug;
 

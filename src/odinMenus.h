@@ -35,5 +35,4 @@
 
 
 #include	"odinCommon.h"
-
-int debug;
+gint debug;

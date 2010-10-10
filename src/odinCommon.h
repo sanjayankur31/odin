@@ -37,6 +37,7 @@
 #include <curses.h>
 #include <string.h>
 #include <stdio.h>
+#include <glib.h>
 
 /* odin_FG_BG  */
 enum odinColors {odin_BLACK_WHITE,odin_WHITE_RED,odin_WHITE_BLUE};

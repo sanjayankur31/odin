@@ -36,14 +36,13 @@
 
 
 #include "odinCommon.h"
-
-int debug;
+gint debug;
 
 void
-odinMenuDraw (char *options[], char *optionMessages[] , WINDOW *odinMainMenuWindow,int odinMainMenuCols, int odinCurrentHighlight ,int odinStartRow);
+odinMenuDraw (char *options[], gchar *optionMessages[] , WINDOW *odinMainMenuWindow,gint odinMainMenuCols, gint odinCurrentHighlight ,gint odinStartRow);
 
-int
-odinMenusGeneric (WINDOW **odinMenusGenericWindow, char **odinMenusGenericGreet, char **odinMenusGenericOptions, char **odinGenericMessages );
+gint
+odinMenusGeneric (WINDOW **odinMenusGenericWindow, gchar **odinMenusGenericGreet, gchar **odinMenusGenericOptions, gchar **odinGenericMessages );
 
-int
+gint
 odinGameEngine ();

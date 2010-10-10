@@ -34,7 +34,6 @@
  */
 
 
-static int debug;
 #include	"odinOptions.h"
 
 /* 
@@ -43,7 +42,7 @@ static int debug;
  *  Description:  
  * =====================================================================================
  */
-int
+gint
 odinOptions ( )
 {
     return 0;

@@ -43,27 +43,27 @@
  *                highlighting.
  *
  *                  - Args:
- *                      char *options[] : options array.
+ *                      gchar *options[] : options array.
  *                      WINDOW *odinMainMenuWindow : the window to draw on.
- *                      int odinMainMenuCols : number of columns in new window.
- *                      int odinCurrentHighlight : the option currently highlighted.
- *                      int odinStartRow : Begin printing from this row.
+ *                      gint odinMainMenuCols : number of columns in new window.
+ *                      gint odinCurrentHighlight : the option currently highlighted.
+ *                      gint odinStartRow : Begin printing from this row.
  *
- *                  - Returns: int
+ *                  - Returns: gint
  *                      0 if all OK.
  *                      non zero otherwise.
  *
  * =====================================================================================
  */
 void
-odinMenuDraw (char *options[], char *optionMessages[],WINDOW *odinMenuWindow,int odinMainMenuCols, int odinCurrentHighlight ,int odinStartRow)
+odinMenuDraw (gchar *options[], gchar *optionMessages[],WINDOW *odinMenuWindow,gint odinMainMenuCols, gint odinCurrentHighlight ,gint odinStartRow)
 {
     /*  Declarations  */
-    int odinCurrentRow = 0;
-    char **odinOptionsPtr;
-    char *odinTextPtr;
-    char *odinMessagePtr;
-    int i;
+    gint odinCurrentRow = 0;
+    gchar **odinOptionsPtr;
+    gchar *odinTextPtr;
+    gchar *odinMessagePtr;
+    gint i;
 
     odinOptionsPtr = options;
     while(*odinOptionsPtr)
@@ -109,21 +109,21 @@ odinMenuDraw (char *options[], char *optionMessages[],WINDOW *odinMenuWindow,int
  *                      WINDOW **odinMenusGenericWindow : a window pointer passed from
  *                      parent function
  *
- *                      char **odinMenusGenericGreet : array having Greets
+ *                      gchar **odinMenusGenericGreet : array having Greets
  *
- *                      char ** odinMenusGenericOptions : array having separate selectable
+ *                      gchar ** odinMenusGenericOptions : array having separate selectable
  *                      options
  *
- *                      char **odinGenericMessages : help messages to display
+ *                      gchar **odinGenericMessages : help messages to display
  *
- *                  - returns: int
+ *                  - returns: gint
  *                      the index of selected option
  *                      -ve on error
  *
  * =====================================================================================
  */
-int
-odinMenusGeneric (WINDOW **odinMenusGenericWindow, char **odinMenusGenericGreet, char **odinMenusGenericOptions, char **odinGenericMessages )
+gint
+odinMenusGeneric (WINDOW **odinMenusGenericWindow, gchar **odinMenusGenericGreet, gchar **odinMenusGenericOptions, gchar **odinGenericMessages )
 {
     /*  Declarations  */
     /* Main menu 
@@ -138,22 +138,22 @@ odinMenusGeneric (WINDOW **odinMenusGenericWindow, char **odinMenusGenericGreet,
      */
 
     /*  only needed for counting max number of options  */
-    char **odinOptions; 
+    gchar **odinOptions; 
 
     /*  A new window for this  
      *  At the moment, I'm using a constant size for the menus
      */
-    const int odinMenusGenericCols  = 40;
-    const int odinMenusGenericLines = 20;
+    const gint odinMenusGenericCols  = 40;
+    const gint odinMenusGenericLines = 20;
 
     /*  mimic high lighting 
      *  range from 0 to 3 (indexes)*/
-    static int odinOptionSelected = 0;
+    static gint odinOptionSelected = 0;
 
     /* Variables needed for the highlighting */
-    int odinMaxRow = 0;
-    int odinKey = 0;
-    int odinStartRow = 6;
+    gint odinMaxRow = 0;
+    gint odinKey = 0;
+    gint odinStartRow = 6;
 
     odinOptions = odinMenusGenericOptions;
 

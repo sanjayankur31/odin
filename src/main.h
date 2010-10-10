@@ -38,19 +38,19 @@
 
 #include <curses.h>
 
-extern int debug;
+extern gint debug;
 
-int 
+gint 
 odinSplash();
 
-int 
+gint 
 odinMainMenu();
 
-int 
+gint 
 odinNewGame();
 
-int
+gint
 odinDocumentation();
 
-int 
+gint 
 odinOptions();

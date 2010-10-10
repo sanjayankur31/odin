@@ -41,20 +41,20 @@
  *  Description:  Displays the odin Splash "image"
  *                  - args : NONE
  *
- *                  - returns int
+ *                  - returns gint
  *                      0 if all Ok
  *                      non zero otherwise
  *                      
  * =====================================================================================
  */
-int
+gint
 odinSplash()
 {
     /* Declarations */
     WINDOW *odinSplashWindow;
-    const int odinSplashLines = 15;
-    const int odinSplashCols = 60;
-    const char *odinSplashMessage[] = {"ODIN", "========", "A simple zero-sum game", "GPLv3+","Mini project for VII semester", "Dept. of CS&E", "MIT Manipal", "Copyright Saumya Singh, Amitabh Anand, Ankur Sinha 2010"};
+    const gint odinSplashLines = 15;
+    const gint odinSplashCols = 60;
+    const gchar *odinSplashMessage[] = {"ODIN", "========", "A simple zero-sum game", "GPLv3+","Mini project for VII semester", "Dept. of CS&E", "MIT Manipal", "Copyright Saumya Singh, Amitabh Anand, Ankur Sinha 2010"};
 
 
 

@@ -60,8 +60,7 @@ odinDrawBoard ()
  
     if(odinGameMatrix == NULL)
     {
-        printf("ERROR :( :(");
-        return -1;
+        g_error("Error allocating memory to the Game Matrix window")
     }
 
 /*     box(odinGameMatrix,0,0);
@@ -74,8 +73,7 @@ odinDrawBoard ()
             odinGamePositions[i][j] = derwin(odinGameMatrix,4, 10,i*4, j*10);
             if(odinGamePositions[i][j] == NULL)
             {
-                printf("MEOW!!");
-                return -1;
+                g_error("Some error in the matrix");
             }
             box(odinGamePositions[i][j],0,0);
         }

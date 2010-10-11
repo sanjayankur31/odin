@@ -58,26 +58,32 @@ enum odinGameState {NEW,A,B,AWIN,BWIN};
 enum odinGameDimensions {GAMEORDER = 5, GAMELINES = 20, GAMECOLS = 50};
 
 /*-----------------------------------------------------------------------------
- *  moves
- *-----------------------------------------------------------------------------*/
-enum odinGameMoves {NOTHING,UP,DOWN,LEFT,RIGHT};
-
-/*-----------------------------------------------------------------------------
  *  This struct signifies the GameBoard. 
  *  A two dimensional array of this structure will hold my position states
  *  in conjunction with the enum.
  *-----------------------------------------------------------------------------*/
-struct odinGameBoard
+struct oneLocation
 {
+    WINDOW *win;
     gint value;
-    gint flag;
+    gint state;
+};
+
+/*-----------------------------------------------------------------------------
+ *  This structure defines the game's current variables
+ *-----------------------------------------------------------------------------*/
+struct odinBoard
+{
+    WINDOW *mainWin;
+    WINDOW *statusWin;
+    struct oneLocation locations[5][5];
+    gint scoreA,scoreB;
+    gint move; 
+    gint state;
+    gint emptyPositions;
 };
 
 /*-----------------------------------------------------------------------------
  *  Function prototypes : The functions have elaborate comments describing them
  *-----------------------------------------------------------------------------*/
-gint
-odinDrawBoard ();
 
-gint
-odinGameEngine ();

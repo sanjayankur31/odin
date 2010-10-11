@@ -35,24 +35,18 @@
 
 #include	"odinGameEngine.h"
 
+
 /* 
  * ===  FUNCTION  ======================================================================
- *         Name:  odinGetMove
- *  Description:  This method gets the move from the user depending on arrow key 
- *                movements
- *                  - args: none
- *                      
- *                  returns: gint 
- *                      - the key pressed
- *                      - -1 on error
+ *         Name:  odinMakeMove
+ *  Description:  
  * =====================================================================================
  */
 gint
-odinGetMove ( )
+odinMakeMove ()
 {
-
-    return BWIN;
-}		/* -----  end of function odinGetMove  ----- */
+    return 0;
+}		/* -----  end of function odinMakeMove  ----- */
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -69,69 +63,39 @@ odinGetMove ( )
  * =====================================================================================
  */
 gint
-odinDrawBoard (gint odinState,gint odinScoreA, gint odinScoreB)
+odinDrawBoard (struct odinBoard odin)
 {
-    WINDOW *odinGameMatrix;
-    WINDOW *odinGamePositions[5][5];
-    WINDOW *odinStatusBar;
-    gint odinGameMatrixLines = GAMELINES + 5; // 5 for status bar
-    gint odinGameMatrixCols = GAMECOLS;
-    gint i,j;
     gchar dummyString[50];
 
-    odinGameMatrix = newwin(odinGameMatrixLines + 2,odinGameMatrixCols + 4,(LINES - odinGameMatrixLines)/2,(COLS - odinGameMatrixCols)/2);
- 
-    if(odinGameMatrix == NULL)
-    {
-        g_error("Error allocating memory to the Game Matrix window");
-    }
-
-    for( i  = 0; i< GAMEORDER; i++)
-    {
-        for(j = 0; j< GAMEORDER; j++)
-        {
-            odinGamePositions[i][j] = derwin(odinGameMatrix,4, 10,i*4 +1, j*10 + 2);
-            if(odinGamePositions[i][j] == NULL)
-            {
-                g_error("Some error in the matrix");
-            }
-            box(odinGamePositions[i][j],0,0);
-        }
-
-    }
-
-    odinStatusBar = derwin(odinGameMatrix,4,50,22,2);
-
-    sprintf(dummyString,"Player A: %d",odinScoreA);
-    switch(odinState)
+    sprintf(dummyString,"Player A: %d",odin.scoreA);
+    switch(odin.state)
     {
         case A:
         case NEW:
-            wstandout(odinStatusBar);
-            mvwprintw(odinStatusBar,1,1,dummyString);
-            wstandend(odinStatusBar);
-            sprintf(dummyString,"Player B: %d",odinScoreB);
-            mvwprintw(odinStatusBar,1,50 - 1 - strlen(dummyString),"%s",dummyString);
-            mvwprintw(odinStatusBar,3,1,"> Player A's turn");
+            wstandout(odin.statusWin);
+            mvwprintw(odin.statusWin,1,1,dummyString);
+            wstandend(odin.statusWin);
+            sprintf(dummyString,"Player B: %d",odin.scoreB);
+            mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),"%s",dummyString);
+            mvwprintw(odin.statusWin,3,1,"> Player A's turn");
             break;
         case B:
-            mvwprintw(odinStatusBar,1,1,dummyString);
-            wstandout(odinStatusBar);
-            sprintf(dummyString,"Player B: %d",odinScoreB);
-            mvwprintw(odinStatusBar,1,50 - 1 - strlen(dummyString),dummyString);
-            wstandend(odinStatusBar);
-            mvwprintw(odinStatusBar,3,1,"> Player A's turn");
+            mvwprintw(odin.statusWin,1,1,dummyString);
+            wstandout(odin.statusWin);
+            sprintf(dummyString,"Player B: %d",odin.scoreB);
+            mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),dummyString);
+            wstandend(odin.statusWin);
+            mvwprintw(odin.statusWin,3,1,"> Player A's turn");
             break;
         case AWIN:
-            mvwprintw(odinStatusBar,1,(50 - strlen("_ WINS"))/2,"A WINS");
+            mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"A WINS");
             break;
         case BWIN:
-            mvwprintw(odinStatusBar,1,(50 - strlen("_ WINS"))/2,"A WINS");
+            mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"A WINS");
             break;
     }
 
-    box(odinGameMatrix,0,0);
-    wrefresh(odinGameMatrix);
+    wrefresh(odin.mainWin);
     return 0;
 }		/* -----  end of function odinDrawBoard  ----- */
 
@@ -144,39 +108,57 @@ odinDrawBoard (gint odinState,gint odinScoreA, gint odinScoreB)
 gint
 odinGameEngine ()
 {
-    struct odinGameBoard **boardState;
+    struct odinBoard odin;
     gint i,j;
-    gint odinGameState = NEW;
-    gint odinMove = NOTHING;
+    /* :TODO:11/10/10 19:32:21:FranciscoD: write a function to calculate these values */
+    gint constantValues[5][5] = {{24,30,45,56,97},{45,21,76,0,9},{1,2,5,6,7},{5,54,43,32,21},{54,9,65,3,21}}; 
 
+    /*-----------------------------------------------------------------------------
+     *  initialize my board
+     *-----------------------------------------------------------------------------*/
+    odin.state = NEW;
+    odin.scoreA = 0;
+    odin.scoreB = 0;
+    odin.move = 0;
+    odin.emptyPositions = GAMEORDER * GAMEORDER;
 
-    boardState = malloc(5* sizeof(struct odinGameBoard *));
+    odin.mainWin = newwin(GAMELINES + 5,GAMECOLS + 2,(LINES - GAMELINES)/2, (COLS - GAMECOLS)/2);
+    box(odin.mainWin,0,0);
+    odin.statusWin = derwin(odin.mainWin,3,GAMECOLS,GAMELINES +1,1);
 
-    if(boardState == NULL)
+    
+    for ( i = 0; i < GAMEORDER; i += 1 ) 
     {
-        g_error("Error allocating memory to boardState");
-    }
 
-    for(i = 0; i< 5; i++)
-    {
-        boardState[i] = malloc(5 * sizeof(struct odinGameBoard));
-        if(boardState[i] == NULL)
+        for ( j = 0; j < GAMEORDER; j += 1 ) 
         {
-            g_error("Error allocating memory to boardState[i]");
+            odin.locations[i][j].win = derwin(odin.mainWin,4,10,(4*i)+1,(10*j)+1);
+
+            if (odin.locations[i][j].win == NULL ) 
+            {
+                g_error("Error allocating window\nExiting");
+            }
+            odin.locations[i][j].value = 0;
+            odin.locations[i][j].state = 0;
         }
 
-        /*-----------------------------------------------------------------------------
-         *  Initialize to all of it to zero
-         *-----------------------------------------------------------------------------*/
-        memset(boardState[i],0,(5* sizeof(struct odinGameBoard)));
     }
 
     
-    while (odinGameState != AWIN && odinGameState != BWIN ) 
+    while (odin.state != AWIN && odin.state != BWIN ) 
     {
-        odinMove = odinGetMove();
-        odinDrawBoard (odinGameState,45,54);
+        odinDrawBoard(odin);
+
+        cbreak();
+        noecho();
+        odin.move = wgetch(odin.mainWin);
+        echo();
+        nocbreak();
+
+        /*  temporary fix  */
+        break; 
     }
+
 
     return 0;
 

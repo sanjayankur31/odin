@@ -81,6 +81,8 @@ struct odinBoard
     gint move; 
     gint state;
     gint emptyPositions;
+    gint currentPositionRow;
+    gint currentPositionCol;
 };
 
 /*-----------------------------------------------------------------------------

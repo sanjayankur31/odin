@@ -39,34 +39,50 @@
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  odinMakeMove
- *  Description:  
+ *  Description:  Processes the user input and updates the structure
  * =====================================================================================
  */
 gint
-odinMakeMove ()
+odinMakeMove (struct odinBoard *odinPtr)
 {
+    
+    switch (odinPtr->move) {
+        case KEY_UP:	
+            break;
+
+        case KEY_DOWN:	
+            break;
+
+        case KEY_RIGHT:	
+            break;
+
+        case KEY_LEFT:	
+            break;
+
+        default:	
+            break;
+    }				/* -----  end switch  ----- */
+
     return 0;
 }		/* -----  end of function odinMakeMove  ----- */
 
 /* 
  * ===  FUNCTION  ======================================================================
- *         Name:  odinDrawBoard
- *  Description:  This method will create the updated board.
- *                  - args: 
- *                      gint odinState: player one/player two
- *                      gint odinScoreA: score of A
- *                      gint odinScoreB: score of B
- *                
+ *         Name:  odinDrawStatusWin
+ *  Description:  Draw the Status Window
+ *                  - args:
+ *                      struct odinBoard odin : the data structure
  *
- *                returns : gint
- *                  - 0 on success, non zero otherwise
+ *                  - returns : gint
+ *                      0 if successful
+ *                      non zero otherwise
+ *                      
  * =====================================================================================
  */
 gint
-odinDrawBoard (struct odinBoard odin)
+odinDrawStatusWin (struct odinBoard odin)
 {
     gchar dummyString[50];
-
     sprintf(dummyString,"Player A: %d",odin.scoreA);
     switch(odin.state)
     {
@@ -85,7 +101,7 @@ odinDrawBoard (struct odinBoard odin)
             sprintf(dummyString,"Player B: %d",odin.scoreB);
             mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),dummyString);
             wstandend(odin.statusWin);
-            mvwprintw(odin.statusWin,3,1,"> Player A's turn");
+            mvwprintw(odin.statusWin,3,1,"> Player B's turn");
             break;
         case AWIN:
             mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"A WINS");
@@ -94,7 +110,24 @@ odinDrawBoard (struct odinBoard odin)
             mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"A WINS");
             break;
     }
+    return 0;
+}		/* -----  end of function odinDrawStatusWin  ----- */
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  odinDrawBoard
+ *  Description:  This method will create the updated board.
+ *                  - args: 
+ *                      struct odinBoard odin : the structure containing data
+ *
+ *                  - returns : gint
+ *                      0 on success, non zero otherwise
+ * =====================================================================================
+ */
+gint
+odinDrawBoard (struct odinBoard odin)
+{
+    odinDrawStatusWin(odin);
     wrefresh(odin.mainWin);
     return 0;
 }		/* -----  end of function odinDrawBoard  ----- */
@@ -121,10 +154,12 @@ odinGameEngine ()
     odin.scoreB = 0;
     odin.move = 0;
     odin.emptyPositions = GAMEORDER * GAMEORDER;
+    odin.currentPositionRow = 0;
+    odin.currentPositionCol = 0;
 
-    odin.mainWin = newwin(GAMELINES + 5,GAMECOLS + 2,(LINES - GAMELINES)/2, (COLS - GAMECOLS)/2);
+    odin.mainWin = newwin(GAMELINES + 6,GAMECOLS + 2,(LINES - GAMELINES)/2, (COLS - GAMECOLS)/2);
     box(odin.mainWin,0,0);
-    odin.statusWin = derwin(odin.mainWin,3,GAMECOLS,GAMELINES +1,1);
+    odin.statusWin = derwin(odin.mainWin,4,GAMECOLS,GAMELINES +1,1);
 
     
     for ( i = 0; i < GAMEORDER; i += 1 ) 
@@ -152,6 +187,7 @@ odinGameEngine ()
         cbreak();
         noecho();
         odin.move = wgetch(odin.mainWin);
+        odinMakeMove(&odin);
         echo();
         nocbreak();
 

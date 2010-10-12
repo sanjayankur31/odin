@@ -115,6 +115,49 @@ odinDrawStatusWin (struct odinBoard odin)
 
 /* 
  * ===  FUNCTION  ======================================================================
+ *         Name:  odinDrawBoxes
+ *  Description:  Draw up the boxes. This first checks the status of the box and
+ *                accordingly colours them boxes
+ * =====================================================================================
+ */
+gint
+odinDrawBoxes (struct odinBoard odin )
+{
+    int i,j;
+    init_pair(1,COLOR_RED,-1);
+    init_pair(2,COLOR_GREEN,-1);
+    
+    for ( i = 0; i < GAMEORDER; i += 1 ) 
+    {
+        for ( j = 0; j < GAMEORDER; j += 1 ) 
+        {
+            
+            if (odin.locations[i][j].state == A_OWNS ) 
+            {
+                wattron(odin.locations[i][j].win,COLOR_PAIR(1));
+                box(odin.locations[i][j].win,0,0);
+                wattroff(odin.locations[i][j].win,COLOR_PAIR(1));
+                
+            }
+            else if(odin.locations[i][j].state == B_OWNS)
+            {
+                wattron(odin.locations[i][j].win,COLOR_PAIR(2));
+                box(odin.locations[i][j].win,0,0);
+                wattroff(odin.locations[i][j].win,COLOR_PAIR(2));
+                
+            }
+            else
+            {
+                box(odin.locations[i][j].win,0,0);
+            
+            }
+
+        }
+    }
+    return 0;
+}		/* -----  end of function odinDrawBoxes  ----- */
+/* 
+ * ===  FUNCTION  ======================================================================
  *         Name:  odinDrawBoard
  *  Description:  This method will create the updated board.
  *                  - args: 
@@ -127,7 +170,9 @@ odinDrawStatusWin (struct odinBoard odin)
 gint
 odinDrawBoard (struct odinBoard odin)
 {
+    int i,j;
     odinDrawStatusWin(odin);
+    odinDrawBoxes(odin);
     wrefresh(odin.mainWin);
     return 0;
 }		/* -----  end of function odinDrawBoard  ----- */

@@ -53,6 +53,15 @@ gint
 main(gint argc, gchar **argv){
     /* Initialize the ncurses library */
     initscr();
+    if(use_default_colors() != OK)
+    {
+        g_error("Something wrong with using default colors. Exiting");
+    }
+    
+    if (start_color() != OK) 
+    {
+        g_error("Error starting color support. Please contact the maintainer\\ file a bug");
+    }
 
     /*  invisible cursor  */
     curs_set(0);

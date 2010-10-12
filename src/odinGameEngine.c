@@ -38,36 +38,6 @@
 
 /* 
  * ===  FUNCTION  ======================================================================
- *         Name:  odinMakeMove
- *  Description:  Processes the user input and updates the structure
- * =====================================================================================
- */
-gint
-odinMakeMove (struct odinBoard *odinPtr)
-{
-    
-    switch (odinPtr->move) {
-        case KEY_UP:	
-            break;
-
-        case KEY_DOWN:	
-            break;
-
-        case KEY_RIGHT:	
-            break;
-
-        case KEY_LEFT:	
-            break;
-
-        default:	
-            break;
-    }				/* -----  end switch  ----- */
-
-    return 0;
-}		/* -----  end of function odinMakeMove  ----- */
-
-/* 
- * ===  FUNCTION  ======================================================================
  *         Name:  odinDrawStatusWin
  *  Description:  Draw the Status Window
  *                  - args:
@@ -121,6 +91,7 @@ odinDrawStatusWin (struct odinBoard odin)
             wattroff(odin.statusWin,COLOR_PAIR(2));
             break;
     }
+    wnoutrefresh(odin.statusWin);
     return 0;
 }		/* -----  end of function odinDrawStatusWin  ----- */
 
@@ -137,32 +108,69 @@ odinDrawBoxes (struct odinBoard odin )
     int i,j;
     init_pair(1,COLOR_RED,-1);
     init_pair(2,COLOR_GREEN,-1);
+    init_pair(3,COLOR_YELLOW,-1);
     
     for ( i = 0; i < GAMEORDER; i += 1 ) 
     {
         for ( j = 0; j < GAMEORDER; j += 1 ) 
         {
-            
+            /* :TODO:12/10/10 22:05:18:FranciscoD: I can probably write this better */
             if (odin.locations[i][j].state == A_OWNS ) 
             {
+                if(odin.currentPositionRow == i && odin.currentPositionCol == j)
+                {
+                    wattron(odin.locations[i][j].win,COLOR_PAIR(3));
+                    box(odin.locations[i][j].win,0,0);
+                    wattroff(odin.locations[i][j].win,COLOR_PAIR(3));
+                }
+                else
+                {
+                    wattron(odin.locations[i][j].win,COLOR_PAIR(1));
+                    box(odin.locations[i][j].win,0,0);
+                    wattroff(odin.locations[i][j].win,COLOR_PAIR(1));
+                }
                 wattron(odin.locations[i][j].win,COLOR_PAIR(1));
-                box(odin.locations[i][j].win,0,0);
+                mvwprintw(odin.locations[i][j].win,2,2,"$A$%d$",odin.locations[i][j].value);
                 wattroff(odin.locations[i][j].win,COLOR_PAIR(1));
                 
             }
             else if(odin.locations[i][j].state == B_OWNS)
             {
+                if(odin.currentPositionRow == i && odin.currentPositionCol == j)
+                {
+                    wattron(odin.locations[i][j].win,COLOR_PAIR(3));
+                    box(odin.locations[i][j].win,0,0);
+                    wattroff(odin.locations[i][j].win,COLOR_PAIR(3));
+                }
+                else
+                {
+                    wattron(odin.locations[i][j].win,COLOR_PAIR(2));
+                    box(odin.locations[i][j].win,0,0);
+                    wattroff(odin.locations[i][j].win,COLOR_PAIR(2));
+                }
                 wattron(odin.locations[i][j].win,COLOR_PAIR(2));
-                box(odin.locations[i][j].win,0,0);
+                mvwprintw(odin.locations[i][j].win,2,2,"$B$%d$",odin.locations[i][j].value);
                 wattroff(odin.locations[i][j].win,COLOR_PAIR(2));
                 
             }
             else
             {
-                box(odin.locations[i][j].win,0,0);
+                if(odin.currentPositionRow == i && odin.currentPositionCol == j)
+                {
+                    wattron(odin.locations[i][j].win,COLOR_PAIR(3));
+                    box(odin.locations[i][j].win,0,0);
+                    wattroff(odin.locations[i][j].win,COLOR_PAIR(3));
+                }
+                else 
+                {
+                    box(odin.locations[i][j].win,0,0);
+                }
+                mvwprintw(odin.locations[i][j].win,2,2,"$_$%d$",odin.locations[i][j].value);
             
             }
 
+            /*  remember that you need to refresh each window separately before anything works! */
+            wnoutrefresh(odin.locations[i][j].win);
         }
     }
     return 0;
@@ -184,7 +192,7 @@ odinDrawBoard (struct odinBoard odin)
     int i,j;
     odinDrawStatusWin(odin);
     odinDrawBoxes(odin);
-    wrefresh(odin.mainWin);
+    doupdate();
     return 0;
 }		/* -----  end of function odinDrawBoard  ----- */
 
@@ -199,6 +207,7 @@ odinGameEngine ()
 {
     struct odinBoard odin;
     gint i,j;
+    gint move;
     /* :TODO:11/10/10 19:32:21:FranciscoD: write a function to calculate these values */
     gint constantValues[5][5] = {{24,30,45,56,97},{45,21,76,0,9},{1,2,5,6,7},{5,54,43,32,21},{54,9,65,3,21}}; 
 
@@ -210,11 +219,13 @@ odinGameEngine ()
     odin.scoreB = 0;
     odin.move = 0;
     odin.emptyPositions = GAMEORDER * GAMEORDER;
+    /*  place it on the extreme start of the matrix */
     odin.currentPositionRow = 0;
     odin.currentPositionCol = 0;
 
     odin.mainWin = newwin(GAMELINES + 6,GAMECOLS + 2,(LINES - GAMELINES)/2, (COLS - GAMECOLS)/2);
     box(odin.mainWin,0,0);
+    keypad(odin.mainWin,TRUE);
     odin.statusWin = derwin(odin.mainWin,4,GAMECOLS,GAMELINES +1,1);
     
     for ( i = 0; i < GAMEORDER; i += 1 ) 
@@ -227,25 +238,91 @@ odinGameEngine ()
             {
                 g_error("Error allocating window\nExiting");
             }
-            odin.locations[i][j].value = 0;
-            odin.locations[i][j].state = 0;
+            odin.locations[i][j].value = constantValues[i][j];
+            odin.locations[i][j].state = FREE;
         }
     }
 
-    
+    odin.state = A;
+    odinDrawBoard(odin);
     while (odin.state != AWIN && odin.state != BWIN ) 
     {
+
+
+        /*  let him walk around the park and see */
+        while(1)
+        {
+            cbreak();
+            noecho();
+            move = wgetch(odin.mainWin);
+            echo();
+            nocbreak();
+
+            /* :TODO:12/10/10 23:12:59:FranciscoD: use switch later? */
+            if(move == '\n' || move == 'c' || move == 'q')
+                break;
+            else if(move == KEY_UP || move == 'w')
+            {
+                if (odin.currentPositionRow == 0 ) {
+                    odin.currentPositionRow = 4;
+                }
+                else {
+                    odin.currentPositionRow -= 1;
+                }
+            }
+            else if(move == KEY_DOWN || move == 's')
+            {
+                if (odin.currentPositionRow == 4 ) {
+                    odin.currentPositionRow = 0;
+                }
+                else {
+                    odin.currentPositionRow += 1;
+                }
+            }
+            else if(move == KEY_RIGHT || move == 'd')
+            {
+                if (odin.currentPositionCol == 4 ) {
+                    odin.currentPositionCol = 0;
+                }
+                else {
+                    odin.currentPositionCol += 1;
+                }
+            }
+            else if(move == KEY_LEFT || move == 'a')
+            {
+                if (odin.currentPositionCol == 0 ) {
+                    odin.currentPositionCol = 4;
+                }
+                else {
+                    odin.currentPositionCol -= 1;
+                }
+            }
+
+            odinDrawBoard(odin);
+        }
+        if(odin.state == A)
+        {
+            odin.locations[odin.currentPositionRow][odin.currentPositionCol].state = A_OWNS;
+            odin.scoreA += odin.locations[odin.currentPositionRow][odin.currentPositionCol].value;
+            odin.state = B;
+        }
+        else if(odin.state == B)
+        {
+            odin.locations[odin.currentPositionRow][odin.currentPositionCol].state = B_OWNS;
+            odin.scoreB += odin.locations[odin.currentPositionRow][odin.currentPositionCol].value;
+            odin.state = A;
+        }
         odinDrawBoard(odin);
 
-        cbreak();
-        noecho();
-        odin.move = wgetch(odin.mainWin);
-        odinMakeMove(&odin);
-        echo();
-        nocbreak();
-
         /*  temporary fix  */
-        break; 
+        if(move == 'q')
+            break;
+        else
+        {
+            odinDrawBoard(odin);
+            continue;
+        }
+
     }
 
 

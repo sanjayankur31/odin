@@ -40,7 +40,7 @@ static gint debug;
 /*-----------------------------------------------------------------------------
  * State of a single board location
  *-----------------------------------------------------------------------------*/
-enum odinMatrixState {FREE,A_OWNS,B_OWNS};
+enum odinMatrixState {FREE,CURRENT,A_OWNS,B_OWNS};
 
 /*-----------------------------------------------------------------------------
  *  Mode of play. 

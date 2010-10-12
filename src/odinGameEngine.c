@@ -53,7 +53,7 @@ gint
 odinDrawStatusWin (struct odinBoard odin)
 {
     gchar dummyString[50];
-    sprintf(dummyString,"Player A: %d",odin.scoreA);
+    sprintf(dummyString,"Player A: %3d",odin.scoreA);
     switch(odin.state)
     {
         case A:
@@ -74,7 +74,7 @@ odinDrawStatusWin (struct odinBoard odin)
             mvwprintw(odin.statusWin,1,1,dummyString);
             wattroff(odin.statusWin,COLOR_PAIR(1));
 
-            sprintf(dummyString,"Player B: %d",odin.scoreB);
+            sprintf(dummyString,"Player B: %3d",odin.scoreB);
             wattron(odin.statusWin,COLOR_PAIR(2));
             mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),dummyString);
             mvwprintw(odin.statusWin,3,1,"> Player B's turn");
@@ -108,7 +108,7 @@ odinDrawBoxes (struct odinBoard odin )
     int i,j;
     init_pair(1,COLOR_RED,-1);
     init_pair(2,COLOR_GREEN,-1);
-    init_pair(3,COLOR_YELLOW,-1);
+    init_pair(3,COLOR_BLUE,-1);
     
     for ( i = 0; i < GAMEORDER; i += 1 ) 
     {
@@ -198,6 +198,85 @@ odinDrawBoard (struct odinBoard odin)
 
 /* 
  * ===  FUNCTION  ======================================================================
+ *         Name:  odinMakeMove
+ *  Description:  Analyse the conquered position and update the state.
+ *                Remember, as per the rules, no cascading effect.
+ * =====================================================================================
+ */
+gint
+odinMakeMove (struct odinBoard *odin)
+{
+
+    /*  check the other locations and update */
+    if(odin->state == A ) 
+    {
+        /* first change ownership of paradropped location */
+        odin->locations[odin->currentPositionRow][odin->currentPositionCol].state = A_OWNS;
+        odin->scoreA += odin->locations[odin->currentPositionRow][odin->currentPositionCol].value;
+        if(odin->currentPositionRow < 4 && odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state == B_OWNS)
+        {
+            odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state = A_OWNS;
+            odin->scoreA += odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].value;
+            odin->scoreB -= odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].value;
+        }
+        if(odin->currentPositionRow > 0 && odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].state == B_OWNS)
+        {
+            odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].state = A_OWNS;
+            odin->scoreA += odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].value;
+            odin->scoreB -= odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].value;
+        }
+        if(odin->currentPositionCol < 4 && odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].state == B_OWNS)
+        {
+            odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].state = A_OWNS;
+            odin->scoreA += odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].value;
+            odin->scoreB -= odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].value;
+        }
+        if(odin->currentPositionCol > 0 && odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].state == B_OWNS)
+        {
+            odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].state = A_OWNS;
+            odin->scoreA += odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
+            odin->scoreB -= odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
+        }
+        
+        odin->state = B;
+        return 0;
+    }
+    else if(odin->state == B) 
+    {
+        /* first change ownership of paradropped location */
+        odin->locations[odin->currentPositionRow][odin->currentPositionCol].state = B_OWNS;
+        odin->scoreB += odin->locations[odin->currentPositionRow][odin->currentPositionCol].value;
+        if(odin->currentPositionRow < 4 && odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state == A_OWNS)
+        {
+            odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state = B_OWNS;
+            odin->scoreB += odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].value;
+            odin->scoreA -= odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].value;
+        }
+        if(odin->currentPositionRow > 0 && odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].state == A_OWNS)
+        {
+            odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].state = B_OWNS;
+            odin->scoreB += odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].value;
+            odin->scoreA -= odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].value;
+        }
+        if(odin->currentPositionCol < 4 && odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].state == A_OWNS)
+        {
+            odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].state = B_OWNS;
+            odin->scoreB += odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].value;
+            odin->scoreA -= odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].value;
+        }
+        if(odin->currentPositionCol > 0 && odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].state == A_OWNS)
+        {
+            odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].state = B_OWNS;
+            odin->scoreB += odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
+            odin->scoreA -= odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
+        }
+        odin->state = A;
+    }
+    return 0;
+}		/* -----  end of function odinMakeMove  ----- */
+
+/* 
+ * ===  FUNCTION  ======================================================================
  *         Name:  odinGameEngine
  *  Description:  The main game engine
  * =====================================================================================
@@ -247,8 +326,6 @@ odinGameEngine ()
     odinDrawBoard(odin);
     while (odin.state != AWIN && odin.state != BWIN ) 
     {
-
-
         /*  let him walk around the park and see */
         while(1)
         {
@@ -259,7 +336,7 @@ odinGameEngine ()
             nocbreak();
 
             /* :TODO:12/10/10 23:12:59:FranciscoD: use switch later? */
-            if(move == '\n' || move == 'c' || move == 'q')
+            if(((move == '\n' || move == 'c') && odin.locations[odin.currentPositionRow][odin.currentPositionCol].state == FREE) || move == 'q')
                 break;
             else if(move == KEY_UP || move == 'w')
             {
@@ -300,27 +377,16 @@ odinGameEngine ()
 
             odinDrawBoard(odin);
         }
-        if(odin.state == A)
-        {
-            odin.locations[odin.currentPositionRow][odin.currentPositionCol].state = A_OWNS;
-            odin.scoreA += odin.locations[odin.currentPositionRow][odin.currentPositionCol].value;
-            odin.state = B;
-        }
-        else if(odin.state == B)
-        {
-            odin.locations[odin.currentPositionRow][odin.currentPositionCol].state = B_OWNS;
-            odin.scoreB += odin.locations[odin.currentPositionRow][odin.currentPositionCol].value;
-            odin.state = A;
-        }
-        odinDrawBoard(odin);
 
-        /*  temporary fix  */
+        /*  q to quit at anytime */
         if(move == 'q')
             break;
+        /* :TODO:12/10/10 23:53:40:FranciscoD: Add an exit confirmation box */
         else
         {
+            /* :TODO:13/10/10 00:05:38:FranciscoD: You might just be able to merge this entire thing into a method? */
+            odinMakeMove(&odin);
             odinDrawBoard(odin);
-            continue;
         }
 
     }

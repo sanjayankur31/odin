@@ -1,2 +1,8 @@
 *.swp
 *.o
+src/.deps/
+config.log
+config.status
+src/odin
+*/Makefile
+Makefile

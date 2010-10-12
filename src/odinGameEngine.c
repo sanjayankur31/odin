@@ -88,26 +88,37 @@ odinDrawStatusWin (struct odinBoard odin)
     {
         case A:
         case NEW:
-            wstandout(odin.statusWin);
+            wattron(odin.statusWin,COLOR_PAIR(1));
             mvwprintw(odin.statusWin,1,1,dummyString);
-            wstandend(odin.statusWin);
-            sprintf(dummyString,"Player B: %d",odin.scoreB);
-            mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),"%s",dummyString);
             mvwprintw(odin.statusWin,3,1,"> Player A's turn");
+            wattroff(odin.statusWin,COLOR_PAIR(1));
+
+            sprintf(dummyString,"Player B: %d",odin.scoreB);
+            wattron(odin.statusWin,COLOR_PAIR(2));
+            mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),"%s",dummyString);
+            wattroff(odin.statusWin,COLOR_PAIR(2));
+
             break;
         case B:
+            wattron(odin.statusWin,COLOR_PAIR(1));
             mvwprintw(odin.statusWin,1,1,dummyString);
-            wstandout(odin.statusWin);
+            wattroff(odin.statusWin,COLOR_PAIR(1));
+
             sprintf(dummyString,"Player B: %d",odin.scoreB);
+            wattron(odin.statusWin,COLOR_PAIR(2));
             mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),dummyString);
-            wstandend(odin.statusWin);
             mvwprintw(odin.statusWin,3,1,"> Player B's turn");
+            wattroff(odin.statusWin,COLOR_PAIR(2));
             break;
         case AWIN:
+            wattron(odin.statusWin,COLOR_PAIR(1));
             mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"A WINS");
+            wattroff(odin.statusWin,COLOR_PAIR(1));
             break;
         case BWIN:
+            wattron(odin.statusWin,COLOR_PAIR(2));
             mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"A WINS");
+            wattroff(odin.statusWin,COLOR_PAIR(2));
             break;
     }
     return 0;
@@ -205,11 +216,9 @@ odinGameEngine ()
     odin.mainWin = newwin(GAMELINES + 6,GAMECOLS + 2,(LINES - GAMELINES)/2, (COLS - GAMECOLS)/2);
     box(odin.mainWin,0,0);
     odin.statusWin = derwin(odin.mainWin,4,GAMECOLS,GAMELINES +1,1);
-
     
     for ( i = 0; i < GAMEORDER; i += 1 ) 
     {
-
         for ( j = 0; j < GAMEORDER; j += 1 ) 
         {
             odin.locations[i][j].win = derwin(odin.mainWin,4,10,(4*i)+1,(10*j)+1);
@@ -221,7 +230,6 @@ odinGameEngine ()
             odin.locations[i][j].value = 0;
             odin.locations[i][j].state = 0;
         }
-
     }
 
     

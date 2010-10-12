@@ -53,17 +53,17 @@ gint
 odinDrawStatusWin (struct odinBoard odin)
 {
     gchar dummyString[50];
-    sprintf(dummyString,"Player A: %4d",odin.scoreA);
+    sprintf(dummyString,"Player A: %3d",odin.scoreA);
     switch(odin.state)
     {
         case A:
         case NEW:
             wattron(odin.statusWin,COLOR_PAIR(1));
             mvwprintw(odin.statusWin,1,1,dummyString);
-            mvwprintw(odin.statusWin,3,1,"> Player A's turn. Empty count: %2d",odin.emptyPositions);
+            mvwprintw(odin.statusWin,3,1,"> Player A's turn.");
             wattroff(odin.statusWin,COLOR_PAIR(1));
 
-            sprintf(dummyString,"Player B: %d",odin.scoreB);
+            sprintf(dummyString,"Player B: %3d",odin.scoreB);
             wattron(odin.statusWin,COLOR_PAIR(2));
             mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),"%s",dummyString);
             wattroff(odin.statusWin,COLOR_PAIR(2));
@@ -76,7 +76,7 @@ odinDrawStatusWin (struct odinBoard odin)
             sprintf(dummyString,"Player B: %3d",odin.scoreB);
             wattron(odin.statusWin,COLOR_PAIR(2));
             mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),dummyString);
-            mvwprintw(odin.statusWin,3,1,"> Player B's turn. Empty count: %2d",odin.emptyPositions);
+            mvwprintw(odin.statusWin,3,1,"> Player B's turn.");
             wattroff(odin.statusWin,COLOR_PAIR(2));
             break;
         case AWIN:
@@ -240,9 +240,20 @@ odinMakeMove (struct odinBoard *odin)
             odin->scoreB -= odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
         }
         if(odin->emptyPositions == 0)
-            odin->state = AWIN;
+        {
+            if(odin->scoreA > odin->scoreB)
+            {
+                odin->state = AWIN;
+            }
+            else 
+            {
+                odin->state = BWIN;
+            }
+        }
         else
+        {
             odin->state = B;
+        }
         return 0;
     }
     else if(odin->state == B) 
@@ -276,9 +287,20 @@ odinMakeMove (struct odinBoard *odin)
             odin->scoreA -= odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
         }
         if(odin->emptyPositions == 0)
-            odin->state = BWIN;
+        {
+            if(odin->scoreA < odin->scoreB)
+            {
+                odin->state = BWIN;
+            }
+            else
+            { 
+                odin->state = AWIN;
+            }
+        }
         else
+        {
             odin->state = A;
+        }
     }
     return 0;
 }		/* -----  end of function odinMakeMove  ----- */

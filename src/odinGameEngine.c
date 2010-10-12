@@ -53,21 +53,20 @@ gint
 odinDrawStatusWin (struct odinBoard odin)
 {
     gchar dummyString[50];
-    sprintf(dummyString,"Player A: %3d",odin.scoreA);
+    sprintf(dummyString,"Player A: %4d",odin.scoreA);
     switch(odin.state)
     {
         case A:
         case NEW:
             wattron(odin.statusWin,COLOR_PAIR(1));
             mvwprintw(odin.statusWin,1,1,dummyString);
-            mvwprintw(odin.statusWin,3,1,"> Player A's turn");
+            mvwprintw(odin.statusWin,3,1,"> Player A's turn. Empty count: %2d",odin.emptyPositions);
             wattroff(odin.statusWin,COLOR_PAIR(1));
 
             sprintf(dummyString,"Player B: %d",odin.scoreB);
             wattron(odin.statusWin,COLOR_PAIR(2));
             mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),"%s",dummyString);
             wattroff(odin.statusWin,COLOR_PAIR(2));
-
             break;
         case B:
             wattron(odin.statusWin,COLOR_PAIR(1));
@@ -77,17 +76,19 @@ odinDrawStatusWin (struct odinBoard odin)
             sprintf(dummyString,"Player B: %3d",odin.scoreB);
             wattron(odin.statusWin,COLOR_PAIR(2));
             mvwprintw(odin.statusWin,1,50 - 1 - strlen(dummyString),dummyString);
-            mvwprintw(odin.statusWin,3,1,"> Player B's turn");
+            mvwprintw(odin.statusWin,3,1,"> Player B's turn. Empty count: %2d",odin.emptyPositions);
             wattroff(odin.statusWin,COLOR_PAIR(2));
             break;
         case AWIN:
             wattron(odin.statusWin,COLOR_PAIR(1));
             mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"A WINS");
+            mvwprintw(odin.statusWin,3,1,"> Congratulations Player A! You have won!");
             wattroff(odin.statusWin,COLOR_PAIR(1));
             break;
         case BWIN:
             wattron(odin.statusWin,COLOR_PAIR(2));
             mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"A WINS");
+            mvwprintw(odin.statusWin,3,1,"> Congratulations Player B! You have won!");
             wattroff(odin.statusWin,COLOR_PAIR(2));
             break;
     }
@@ -213,6 +214,7 @@ odinMakeMove (struct odinBoard *odin)
         /* first change ownership of paradropped location */
         odin->locations[odin->currentPositionRow][odin->currentPositionCol].state = A_OWNS;
         odin->scoreA += odin->locations[odin->currentPositionRow][odin->currentPositionCol].value;
+        odin->emptyPositions -= 1;
         if(odin->currentPositionRow < 4 && odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state == B_OWNS)
         {
             odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state = A_OWNS;
@@ -237,8 +239,10 @@ odinMakeMove (struct odinBoard *odin)
             odin->scoreA += odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
             odin->scoreB -= odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
         }
-        
-        odin->state = B;
+        if(odin->emptyPositions == 0)
+            odin->state = AWIN;
+        else
+            odin->state = B;
         return 0;
     }
     else if(odin->state == B) 
@@ -246,6 +250,7 @@ odinMakeMove (struct odinBoard *odin)
         /* first change ownership of paradropped location */
         odin->locations[odin->currentPositionRow][odin->currentPositionCol].state = B_OWNS;
         odin->scoreB += odin->locations[odin->currentPositionRow][odin->currentPositionCol].value;
+        odin->emptyPositions -= 1;
         if(odin->currentPositionRow < 4 && odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state == A_OWNS)
         {
             odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state = B_OWNS;
@@ -270,7 +275,10 @@ odinMakeMove (struct odinBoard *odin)
             odin->scoreB += odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
             odin->scoreA -= odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
         }
-        odin->state = A;
+        if(odin->emptyPositions == 0)
+            odin->state = BWIN;
+        else
+            odin->state = A;
     }
     return 0;
 }		/* -----  end of function odinMakeMove  ----- */
@@ -322,6 +330,7 @@ odinGameEngine ()
         }
     }
 
+    /*  change the state and begin!! */
     odin.state = A;
     odinDrawBoard(odin);
     while (odin.state != AWIN && odin.state != BWIN ) 

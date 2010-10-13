@@ -87,7 +87,7 @@ odinDrawStatusWin (struct odinBoard odin)
             break;
         case BWIN:
             wattron(odin.statusWin,COLOR_PAIR(2));
-            mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"A WINS");
+            mvwprintw(odin.statusWin,1,(50 - strlen("_ WINS"))/2,"B WINS");
             mvwprintw(odin.statusWin,3,1,"> Congratulations Player B! You have won!");
             wattroff(odin.statusWin,COLOR_PAIR(2));
             break;
@@ -109,7 +109,7 @@ odinDrawBoxes (struct odinBoard odin )
     int i,j;
     init_pair(1,COLOR_RED,-1);
     init_pair(2,COLOR_GREEN,-1);
-    init_pair(3,COLOR_BLUE,-1);
+    init_pair(3,COLOR_CYAN,-1);
     
     for ( i = 0; i < GAMEORDER; i += 1 ) 
     {
@@ -160,13 +160,14 @@ odinDrawBoxes (struct odinBoard odin )
                 {
                     wattron(odin.locations[i][j].win,COLOR_PAIR(3));
                     box(odin.locations[i][j].win,0,0);
+                    mvwprintw(odin.locations[i][j].win,2,2,"$_$%d$",odin.locations[i][j].value);
                     wattroff(odin.locations[i][j].win,COLOR_PAIR(3));
                 }
                 else 
                 {
                     box(odin.locations[i][j].win,0,0);
+                    mvwprintw(odin.locations[i][j].win,2,2,"$_$%d$",odin.locations[i][j].value);
                 }
-                mvwprintw(odin.locations[i][j].win,2,2,"$_$%d$",odin.locations[i][j].value);
             
             }
 

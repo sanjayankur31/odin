@@ -11,5 +11,10 @@
 # 
 #
 
-Compilation Command:
-gcc -g -Wall -Wextra -W -pedantic -lncurses *.c -o odin
+The needed dependencies are:
+
+- ncurses
+- glib
+- colour support on terminal
+
+That's all you need to build and play it!

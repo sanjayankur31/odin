@@ -49,7 +49,8 @@ PROGRAMS = $(bin_PROGRAMS)
 am_odin_OBJECTS = odin-main.$(OBJEXT) odin-odinMainMenu.$(OBJEXT) \
 	odin-odinNewGame.$(OBJEXT) odin-odinSplash.$(OBJEXT) \
 	odin-odinDocumentation.$(OBJEXT) odin-odinOptions.$(OBJEXT) \
-	odin-odinMenus.$(OBJEXT) odin-odinGameEngine.$(OBJEXT)
+	odin-odinMenus.$(OBJEXT) odin-odinGameEngine.$(OBJEXT) \
+	odin-odinAIStatic.$(OBJEXT)
 odin_OBJECTS = $(am_odin_OBJECTS)
 odin_LDADD = $(LDADD)
 odin_LINK = $(CCLD) $(odin_CFLAGS) $(CFLAGS) $(odin_LDFLAGS) \
@@ -157,12 +158,14 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 odin_SOURCES = main.c  odinMainMenu.c  odinNewGame.c  odinSplash.c \
 			   odinDocumentation.c odinOptions.c odinMenus.c \
-			   odinGameEngine.c \
+			   odinGameEngine.c odinAIStatic.c \
 			   main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h \
-			   odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h
+			   odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h \
+			   odinAIStatic.h
 
 noinst_HEADERS = main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h \
-				 odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h
+				 odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h \
+				 odinAIStatic.h
 
 
 # AM_CFLAGS = 
@@ -250,6 +253,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-odinAIStatic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-odinDocumentation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-odinGameEngine.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-odinMainMenu.Po@am__quote@
@@ -383,6 +387,20 @@ odin-odinGameEngine.obj: odinGameEngine.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='odinGameEngine.c' object='odin-odinGameEngine.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinGameEngine.obj `if test -f 'odinGameEngine.c'; then $(CYGPATH_W) 'odinGameEngine.c'; else $(CYGPATH_W) '$(srcdir)/odinGameEngine.c'; fi`
+
+odin-odinAIStatic.o: odinAIStatic.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -MT odin-odinAIStatic.o -MD -MP -MF $(DEPDIR)/odin-odinAIStatic.Tpo -c -o odin-odinAIStatic.o `test -f 'odinAIStatic.c' || echo '$(srcdir)/'`odinAIStatic.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/odin-odinAIStatic.Tpo $(DEPDIR)/odin-odinAIStatic.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='odinAIStatic.c' object='odin-odinAIStatic.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinAIStatic.o `test -f 'odinAIStatic.c' || echo '$(srcdir)/'`odinAIStatic.c
+
+odin-odinAIStatic.obj: odinAIStatic.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -MT odin-odinAIStatic.obj -MD -MP -MF $(DEPDIR)/odin-odinAIStatic.Tpo -c -o odin-odinAIStatic.obj `if test -f 'odinAIStatic.c'; then $(CYGPATH_W) 'odinAIStatic.c'; else $(CYGPATH_W) '$(srcdir)/odinAIStatic.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/odin-odinAIStatic.Tpo $(DEPDIR)/odin-odinAIStatic.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='odinAIStatic.c' object='odin-odinAIStatic.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinAIStatic.obj `if test -f 'odinAIStatic.c'; then $(CYGPATH_W) 'odinAIStatic.c'; else $(CYGPATH_W) '$(srcdir)/odinAIStatic.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

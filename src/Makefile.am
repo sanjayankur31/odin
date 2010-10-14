@@ -1,13 +1,15 @@
 bin_PROGRAMS = odin
 odin_SOURCES = main.c  odinMainMenu.c  odinNewGame.c  odinSplash.c \
 			   odinDocumentation.c odinOptions.c odinMenus.c \
-			   odinGameEngine.c \
+			   odinGameEngine.c odinAIStatic.c \
 			   main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h \
-			   odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h
+			   odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h \
+			   odinAIStatic.h
 
 
 noinst_HEADERS = main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h \
-				 odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h
+				 odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h \
+				 odinAIStatic.h
 
 # AM_CFLAGS = 
 odin_CFLAGS = -DDATADIR=\"$(datadir)\"  @PACKAGE_CFLAGS@

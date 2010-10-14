@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  odinGameEngine.h
+ *       Filename:  odinAIStatic.c
  *
- *    Description:  
+ *    Description:  file containing the static evaluation function for use by minimax
  *
  *        Version:  1.0
- *        Created:  27/09/10 14:17:29
+ *        Created:  14/10/10 22:55:36
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -33,7 +33,23 @@
  *
  */
 
-#include "odinCommon.h"
 
-static gint debug;
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  odinStatic
+ *  Description:  static function that returns value to be used by minimax
+ *                  - args: 
+ *                      - struct odinBoard *odin : odinGameBoard to be filled with values
+ *
+ *                  - returns : gint
+ *                      - 0 if all OK
+ *                      - non zero otherwise
+ * =====================================================================================
+ */
+gint
+odinStatic (struct odinBoard *odin )
+{
+    return 0;
+}		/* -----  end of function odinStatic  ----- */
 

@@ -39,6 +39,52 @@
 #include <stdio.h>
 #include <glib.h>
 
-/* odin_FG_BG  */
-enum odinColors {odin_BLACK_WHITE,odin_WHITE_RED,odin_WHITE_BLUE};
+/*-----------------------------------------------------------------------------
+ * State of a single board location
+ *-----------------------------------------------------------------------------*/
+enum odinMatrixState {FREE,CURRENT,A_OWNS,B_OWNS};
+
+/*-----------------------------------------------------------------------------
+ *  Mode of play. 
+ *-----------------------------------------------------------------------------*/
+enum odinGameMode {DEMO,SINGLE,DOUBLE};
+
+/*-----------------------------------------------------------------------------
+ *  Game state
+ *-----------------------------------------------------------------------------*/
+enum odinGameState {NEW,A,B,AWIN,BWIN};
+
+/*-----------------------------------------------------------------------------
+ *  Constants
+ *-----------------------------------------------------------------------------*/
+enum odinGameDimensions {GAMEORDER = 5, GAMELINES = 20, GAMECOLS = 50};
+
+/*-----------------------------------------------------------------------------
+ *  This struct signifies the GameBoard. 
+ *  A two dimensional array of this structure will hold my position states
+ *  in conjunction with the enum.
+ *-----------------------------------------------------------------------------*/
+struct oneLocation
+{
+    WINDOW *win;
+    gint value;
+    gint state;
+};
+
+/*-----------------------------------------------------------------------------
+ *  This structure defines the game's current variables
+ *-----------------------------------------------------------------------------*/
+struct odinBoard
+{
+    WINDOW *mainWin;
+    WINDOW *statusWin;
+    struct oneLocation locations[5][5];
+    gint scoreA,scoreB;
+    gint move; 
+    gint state;
+    gint emptyPositions;
+    gint currentPositionRow;
+    gint currentPositionCol;
+};
+
 

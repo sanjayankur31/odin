@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  odinGameEngine.h
+ *       Filename:  odinAIStatic.h
  *
- *    Description:  
+ *    Description:  header to odinAIStatic.c
  *
  *        Version:  1.0
- *        Created:  27/09/10 14:17:29
+ *        Created:  14/10/10 22:57:28
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -33,7 +33,7 @@
  *
  */
 
-#include "odinCommon.h"
+
+#include	"odinCommon.h"
 
 static gint debug;
-

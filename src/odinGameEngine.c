@@ -131,7 +131,7 @@ odinDrawBoxes (struct odinBoard odin )
                     wattroff(odin.locations[i][j].win,COLOR_PAIR(1));
                 }
                 wattron(odin.locations[i][j].win,COLOR_PAIR(1));
-                mvwprintw(odin.locations[i][j].win,2,2,"$A$%d$",odin.locations[i][j].value);
+                mvwprintw(odin.locations[i][j].win,2,2,"$A$%+d$",odin.locations[i][j].value);
                 wattroff(odin.locations[i][j].win,COLOR_PAIR(1));
                 
             }
@@ -150,7 +150,7 @@ odinDrawBoxes (struct odinBoard odin )
                     wattroff(odin.locations[i][j].win,COLOR_PAIR(2));
                 }
                 wattron(odin.locations[i][j].win,COLOR_PAIR(2));
-                mvwprintw(odin.locations[i][j].win,2,2,"$B$%d$",odin.locations[i][j].value);
+                mvwprintw(odin.locations[i][j].win,2,2,"$B$%+d$",odin.locations[i][j].value);
                 wattroff(odin.locations[i][j].win,COLOR_PAIR(2));
                 
             }
@@ -160,13 +160,13 @@ odinDrawBoxes (struct odinBoard odin )
                 {
                     wattron(odin.locations[i][j].win,COLOR_PAIR(3));
                     box(odin.locations[i][j].win,0,0);
-                    mvwprintw(odin.locations[i][j].win,2,2,"$_$%d$",odin.locations[i][j].value);
+                    mvwprintw(odin.locations[i][j].win,2,2,"$_$%+d$",odin.locations[i][j].value);
                     wattroff(odin.locations[i][j].win,COLOR_PAIR(3));
                 }
                 else 
                 {
                     box(odin.locations[i][j].win,0,0);
-                    mvwprintw(odin.locations[i][j].win,2,2,"$_$%d$",odin.locations[i][j].value);
+                    mvwprintw(odin.locations[i][j].win,2,2,"$_$%+d$",odin.locations[i][j].value);
                 }
             
             }
@@ -214,31 +214,31 @@ odinMakeMove (struct odinBoard *odin)
     {
         /* first change ownership of paradropped location */
         odin->locations[odin->currentPositionRow][odin->currentPositionCol].state = A_OWNS;
-        odin->scoreA += odin->locations[odin->currentPositionRow][odin->currentPositionCol].value;
+        odin->scoreA += 1;
         odin->emptyPositions -= 1;
         if(odin->currentPositionRow < 4 && odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state == B_OWNS)
         {
             odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state = A_OWNS;
-            odin->scoreA += odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].value;
-            odin->scoreB -= odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].value;
+            odin->scoreA += 1;
+            odin->scoreB -= 1;
         }
         if(odin->currentPositionRow > 0 && odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].state == B_OWNS)
         {
             odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].state = A_OWNS;
-            odin->scoreA += odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].value;
-            odin->scoreB -= odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].value;
+            odin->scoreA += 1;
+            odin->scoreB -= 1;
         }
         if(odin->currentPositionCol < 4 && odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].state == B_OWNS)
         {
             odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].state = A_OWNS;
-            odin->scoreA += odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].value;
-            odin->scoreB -= odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].value;
+            odin->scoreA += 1;
+            odin->scoreB -= 1;
         }
         if(odin->currentPositionCol > 0 && odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].state == B_OWNS)
         {
             odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].state = A_OWNS;
-            odin->scoreA += odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
-            odin->scoreB -= odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
+            odin->scoreA += 1;
+            odin->scoreB -= 1;
         }
         if(odin->emptyPositions == 0)
         {
@@ -261,31 +261,31 @@ odinMakeMove (struct odinBoard *odin)
     {
         /* first change ownership of paradropped location */
         odin->locations[odin->currentPositionRow][odin->currentPositionCol].state = B_OWNS;
-        odin->scoreB += odin->locations[odin->currentPositionRow][odin->currentPositionCol].value;
+        odin->scoreB += 1;
         odin->emptyPositions -= 1;
         if(odin->currentPositionRow < 4 && odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state == A_OWNS)
         {
             odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].state = B_OWNS;
-            odin->scoreB += odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].value;
-            odin->scoreA -= odin->locations[odin->currentPositionRow +1][odin->currentPositionCol].value;
+            odin->scoreB += 1;
+            odin->scoreA -= 1;
         }
         if(odin->currentPositionRow > 0 && odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].state == A_OWNS)
         {
             odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].state = B_OWNS;
-            odin->scoreB += odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].value;
-            odin->scoreA -= odin->locations[odin->currentPositionRow -1][odin->currentPositionCol].value;
+            odin->scoreB += 1;
+            odin->scoreA -= 1;
         }
         if(odin->currentPositionCol < 4 && odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].state == A_OWNS)
         {
             odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].state = B_OWNS;
-            odin->scoreB += odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].value;
-            odin->scoreA -= odin->locations[odin->currentPositionRow][odin->currentPositionCol +1].value;
+            odin->scoreB += 1;
+            odin->scoreA -= 1;
         }
         if(odin->currentPositionCol > 0 && odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].state == A_OWNS)
         {
             odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].state = B_OWNS;
-            odin->scoreB += odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
-            odin->scoreA -= odin->locations[odin->currentPositionRow][odin->currentPositionCol -1].value;
+            odin->scoreB += 1;
+            odin->scoreA -= 1;
         }
         if(odin->emptyPositions == 0)
         {
@@ -318,8 +318,6 @@ odinGameEngine ()
     struct odinBoard odin;
     gint i,j;
     gint move;
-    /* :TODO:11/10/10 19:32:21:FranciscoD: write a function to calculate these values */
-    gint constantValues[5][5] = {{24,30,45,56,97},{45,21,76,0,9},{1,2,5,6,7},{5,54,43,32,21},{54,9,65,3,21}}; 
 
     /*-----------------------------------------------------------------------------
      *  initialize my board
@@ -348,13 +346,13 @@ odinGameEngine ()
             {
                 g_error("Error allocating window\nExiting");
             }
-            odin.locations[i][j].value = constantValues[i][j];
             odin.locations[i][j].state = FREE;
         }
     }
 
     /*  change the state and begin!! */
     odin.state = A;
+    odinStatic(&odin);
     odinDrawBoard(odin);
     while (odin.state != AWIN && odin.state != BWIN ) 
     {
@@ -418,6 +416,7 @@ odinGameEngine ()
         {
             /* :TODO:13/10/10 00:05:38:FranciscoD: You might just be able to merge this entire thing into a method? */
             odinMakeMove(&odin);
+            odinStatic(&odin);
             odinDrawBoard(odin);
         }
 

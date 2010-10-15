@@ -157,7 +157,7 @@ odinMenusGeneric (WINDOW **odinMenusGenericWindow, gchar **odinMenusGenericGreet
 
     odinOptions = odinMenusGenericOptions;
 
-    *odinMenusGenericWindow = newwin(odinMenusGenericLines,odinMenusGenericCols,(LINES - odinMenusGenericLines)/2,(COLS - odinMenusGenericCols)/2);
+    *odinMenusGenericWindow = newwin(odinMenusGenericLines,odinMenusGenericCols,(getmaxy(stdscr) - odinMenusGenericLines)/2,(getmaxx(stdscr) - odinMenusGenericCols)/2);
     box(*odinMenusGenericWindow,0,0);
 
     mvwprintw(*odinMenusGenericWindow,3,(odinMenusGenericCols - strlen(odinMenusGenericGreet[0]))/2, "%s",odinMenusGenericGreet[0]);

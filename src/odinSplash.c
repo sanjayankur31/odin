@@ -60,7 +60,7 @@ odinSplash()
 
     /** Do the work **/
     /* get a new window */
-    odinSplashWindow = newwin(odinSplashLines,odinSplashCols,(LINES - odinSplashLines)/2,(COLS - odinSplashCols)/2);
+    odinSplashWindow = newwin(odinSplashLines,odinSplashCols,(getmaxy(stdscr) - odinSplashLines)/2,(getmaxx(stdscr) - odinSplashCols)/2);
 
     noecho();
 

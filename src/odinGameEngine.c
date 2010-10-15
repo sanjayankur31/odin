@@ -339,7 +339,7 @@ odinGameEngine (gint odinGameMode)
     odin.currentPositionRow = 0;
     odin.currentPositionCol = 0;
 
-    odin.mainWin = newwin(GAMELINES + 6,GAMECOLS + 2,(LINES - GAMELINES)/2, (COLS - GAMECOLS)/2);
+    odin.mainWin = newwin(GAMELINES + 6,GAMECOLS + 2,(getmaxy(stdscr) - GAMELINES)/2, (getmaxx(stdscr) - GAMECOLS)/2);
     box(odin.mainWin,0,0);
     keypad(odin.mainWin,TRUE);
     odin.statusWin = derwin(odin.mainWin,4,GAMECOLS,GAMELINES +1,1);

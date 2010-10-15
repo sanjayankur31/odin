@@ -64,9 +64,11 @@ odinNewGame ()
     while(1)
     {
         odinMenuSelect = odinMenusGeneric(&odinNewGameWindow, odinNewGameGreet, odinNewGameOptions, odinNewGameMessages);
-
+/* :TODO:15/10/10 19:51:55:FranciscoD: integrate these once the minimax and alpha beta are done with */
         switch (odinMenuSelect) {
             case 1:	
+/*                 odinGameEngine (SINGLE);
+ */
                 break;
 
             case 2:	
@@ -74,6 +76,8 @@ odinNewGame ()
                 break;
 
             case 3:	
+/*                 odinGameEngine (DEMO);
+ */
                 break;
 
             case 4:

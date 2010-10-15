@@ -310,10 +310,18 @@ odinMakeMove (struct odinBoard *odin)
  * ===  FUNCTION  ======================================================================
  *         Name:  odinGameEngine
  *  Description:  The main game engine
+ *
+ *                  - args:
+ *                      gint odinGameMode : one of the values from the enum to tell 
+ *                      the engine what mode it's working in (1p, 2p or demo)
+ *
+ *                  - returns: gint
+ *                      0 if all is OK
+ *                      non zero otherwise (exits by g_error)
  * =====================================================================================
  */
 gint
-odinGameEngine ()
+odinGameEngine (gint odinGameMode)
 {
     struct odinBoard odin;
     gint i,j;
@@ -423,6 +431,8 @@ odinGameEngine ()
     }
 
 
+    werase(odin.mainWin);
+    wrefresh(odin.mainWin);
     return 0;
 
 }		/* -----  end of function odinGameEngine  ----- */

@@ -69,28 +69,30 @@ odinMainMenu ()
     gchar *odinMainMenuOptions[] = {"1.New Game", "2.Controls\\Documentation", "3.Options", "4.Quit", 0 };
     gchar *odinOptionMessages[] = {"Start a new game", "See the program documentation", "Configure the options", "Quit the game",0};
     WINDOW *odinMainMenuWindow;
+    gint odinSelectedOption;
 
-    gint odinSelectedOption = odinMenusGeneric(&odinMainMenuWindow, odinMainMenuGreet, odinMainMenuOptions, odinOptionMessages);
 
-    switch(odinSelectedOption)
+    while(1)
     {
-        case 1: 
-            odinNewGame();
-            break;
+        odinSelectedOption = odinMenusGeneric(&odinMainMenuWindow, odinMainMenuGreet, odinMainMenuOptions, odinOptionMessages);
+        switch(odinSelectedOption)
+        {
+            case 1: 
+                odinNewGame();
+                break;
 
-        case 2: 
-            odinDocumentation();
-            break;
+            case 2: 
+                odinDocumentation();
+                break;
 
-        case 3: 
-            odinOptions();
-            break;       
-        
-        default:
-            break;        
+            case 3: 
+                odinOptions();
+                break;       
+            
+            case 4:
+                return 0;
+        }
     }
-
-    return 0;
 
 }		/* -----  end of function odinMainMenu  ----- */
 

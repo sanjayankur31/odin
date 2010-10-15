@@ -59,12 +59,29 @@ odinNewGame ()
     gchar *odinNewGameGreet[] = {"Game Menu", "=============" };
     gchar *odinNewGameOptions[] = {"1.Single Player", "2.Two Player", "3.Demo", "4.Back", 0 };
     gchar *odinNewGameMessages[] = {"Start a single player game", "Start a two player game", "View an AI vs AI demo", "Go back to main menu",0};
+    gint odinMenuSelect;
 
-    gint odinMenuSelect = odinMenusGeneric(&odinNewGameWindow, odinNewGameGreet, odinNewGameOptions, odinNewGameMessages);
+    while(1)
+    {
+        odinMenuSelect = odinMenusGeneric(&odinNewGameWindow, odinNewGameGreet, odinNewGameOptions, odinNewGameMessages);
 
-    /* use a switch later */
-    odinGameEngine ();
+        switch (odinMenuSelect) {
+            case 1:	
+                break;
 
+            case 2:	
+                odinGameEngine (DOUBLE);
+                break;
 
-    return 0;
+            case 3:	
+                break;
+
+            case 4:
+                return 0;
+
+            default:	
+                break;
+        }				/* -----  end switch  ----- */
+    }
+
 }		/* -----  end of function odinNewGame  ----- */

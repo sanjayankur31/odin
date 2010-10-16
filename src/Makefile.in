@@ -50,7 +50,7 @@ am_odin_OBJECTS = odin-main.$(OBJEXT) odin-odinMainMenu.$(OBJEXT) \
 	odin-odinNewGame.$(OBJEXT) odin-odinSplash.$(OBJEXT) \
 	odin-odinDocumentation.$(OBJEXT) odin-odinOptions.$(OBJEXT) \
 	odin-odinMenus.$(OBJEXT) odin-odinGameEngine.$(OBJEXT) \
-	odin-odinAIStatic.$(OBJEXT)
+	odin-odinAIStatic.$(OBJEXT) odin-odinResizeHandle.$(OBJEXT)
 odin_OBJECTS = $(am_odin_OBJECTS)
 odin_LDADD = $(LDADD)
 odin_LINK = $(CCLD) $(odin_CFLAGS) $(CFLAGS) $(odin_LDFLAGS) \
@@ -158,14 +158,14 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 odin_SOURCES = main.c  odinMainMenu.c  odinNewGame.c  odinSplash.c \
 			   odinDocumentation.c odinOptions.c odinMenus.c \
-			   odinGameEngine.c odinAIStatic.c \
+			   odinGameEngine.c odinAIStatic.c odinResizeHandle.c \
 			   main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h \
 			   odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h \
-			   odinAIStatic.h
+			   odinAIStatic.h odinResizeHandle.h
 
 noinst_HEADERS = main.h  odinCommon.h  odinMainMenu.h  odinNewGame.h  odinSplash.h \
 				 odinDocumentation.h odinOptions.h odinMenus.h odinGameEngine.h \
-				 odinAIStatic.h
+				 odinAIStatic.h odinResizeHandle.h
 
 
 # AM_CFLAGS = 
@@ -260,6 +260,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-odinMenus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-odinNewGame.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-odinOptions.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-odinResizeHandle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odin-odinSplash.Po@am__quote@
 
 .c.o:
@@ -401,6 +402,20 @@ odin-odinAIStatic.obj: odinAIStatic.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='odinAIStatic.c' object='odin-odinAIStatic.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinAIStatic.obj `if test -f 'odinAIStatic.c'; then $(CYGPATH_W) 'odinAIStatic.c'; else $(CYGPATH_W) '$(srcdir)/odinAIStatic.c'; fi`
+
+odin-odinResizeHandle.o: odinResizeHandle.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -MT odin-odinResizeHandle.o -MD -MP -MF $(DEPDIR)/odin-odinResizeHandle.Tpo -c -o odin-odinResizeHandle.o `test -f 'odinResizeHandle.c' || echo '$(srcdir)/'`odinResizeHandle.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/odin-odinResizeHandle.Tpo $(DEPDIR)/odin-odinResizeHandle.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='odinResizeHandle.c' object='odin-odinResizeHandle.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinResizeHandle.o `test -f 'odinResizeHandle.c' || echo '$(srcdir)/'`odinResizeHandle.c
+
+odin-odinResizeHandle.obj: odinResizeHandle.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -MT odin-odinResizeHandle.obj -MD -MP -MF $(DEPDIR)/odin-odinResizeHandle.Tpo -c -o odin-odinResizeHandle.obj `if test -f 'odinResizeHandle.c'; then $(CYGPATH_W) 'odinResizeHandle.c'; else $(CYGPATH_W) '$(srcdir)/odinResizeHandle.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/odin-odinResizeHandle.Tpo $(DEPDIR)/odin-odinResizeHandle.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='odinResizeHandle.c' object='odin-odinResizeHandle.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(odin_CFLAGS) $(CFLAGS) -c -o odin-odinResizeHandle.obj `if test -f 'odinResizeHandle.c'; then $(CYGPATH_W) 'odinResizeHandle.c'; else $(CYGPATH_W) '$(srcdir)/odinResizeHandle.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

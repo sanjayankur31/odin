@@ -34,6 +34,8 @@
  */
 
 
+#include	"odinResizeHandle.h"
+
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  odinResizeHandle
@@ -41,7 +43,7 @@
  * =====================================================================================
  */
 gint
-odinResizeHandle ( <+argument list+> )
+odinResizeHandle ()
 {
-    return <+return value+>;
+    return 0;
 }		/* -----  end of function odinResizeHandle  ----- */

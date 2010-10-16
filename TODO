@@ -1,4 +1,7 @@
-- Integrate the menus with the two player mode.
+- Add the debug function to write debug logs to a file
+I can't display debugs on the screen. Will look downright ugly!
+
+- Add a SIGWINCH handler
 - Begin working on minimax
 - Complete the documentation bits
 - man page? Will I take any arguments?

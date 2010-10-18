@@ -87,4 +87,3 @@ struct odinBoard
     gint currentPositionCol;
 };
 
-

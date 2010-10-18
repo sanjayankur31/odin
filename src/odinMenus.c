@@ -146,6 +146,7 @@ odinMenusGeneric (WINDOW **odinMenusGenericWindow, gchar **odinMenusGenericGreet
     const gint odinMenusGenericCols  = 40;
     const gint odinMenusGenericLines = 20;
 
+
     /*  mimic high lighting 
      *  range from 0 to 3 (indexes)*/
     static gint odinOptionSelected = 0;

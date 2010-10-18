@@ -39,11 +39,26 @@
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  odinDocumentation
- *  Description:  
+ *  Description:  This method displays the documentation for the project
+ *
+ *                  - args : NONE
+ *
+ *                  - returns : gint
+ *                      0 if OK
+ *                      NONZERO if something went wrong
  * =====================================================================================
  */
 gint
 odinDocumentation ( )
 {
+    WINDOW *odinNewGameWindow;
+
+    gchar *odinNewGameGreet[] = {"Controls", "=============" };
+    gchar *odinNewGameOptions[] = {" a | LeftArrow ", " d | RightArrow", " w |  UpArrow  ", " s | DownArrow ","q", 0 };
+    gchar *odinNewGameMessages[] = {"Move Left", "Move Right", "Move Up", "Move Down","Quit",0};
+    gint odinMenuSelect;
+
+    odinMenuSelect = odinMenusGeneric(&odinNewGameWindow, odinNewGameGreet, odinNewGameOptions, odinNewGameMessages);
+
     return 0;
 }		/* -----  end of function odinDocumentation  ----- */

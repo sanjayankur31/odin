@@ -131,7 +131,7 @@ odinDrawBoxes (struct odinBoard odin )
                     wattroff(odin.locations[i][j].win,COLOR_PAIR(1));
                 }
                 wattron(odin.locations[i][j].win,COLOR_PAIR(1));
-                mvwprintw(odin.locations[i][j].win,2,2,"$A$%+d$",odin.locations[i][j].value);
+                mvwprintw(odin.locations[i][j].win,2,2,"A %+d",odin.locations[i][j].value);
                 wattroff(odin.locations[i][j].win,COLOR_PAIR(1));
                 
             }
@@ -150,7 +150,7 @@ odinDrawBoxes (struct odinBoard odin )
                     wattroff(odin.locations[i][j].win,COLOR_PAIR(2));
                 }
                 wattron(odin.locations[i][j].win,COLOR_PAIR(2));
-                mvwprintw(odin.locations[i][j].win,2,2,"$B$%+d$",odin.locations[i][j].value);
+                mvwprintw(odin.locations[i][j].win,2,2,"B %+d",odin.locations[i][j].value);
                 wattroff(odin.locations[i][j].win,COLOR_PAIR(2));
                 
             }
@@ -160,13 +160,13 @@ odinDrawBoxes (struct odinBoard odin )
                 {
                     wattron(odin.locations[i][j].win,COLOR_PAIR(3));
                     box(odin.locations[i][j].win,0,0);
-                    mvwprintw(odin.locations[i][j].win,2,2,"$_$%+d$",odin.locations[i][j].value);
+                    mvwprintw(odin.locations[i][j].win,2,2,"_ %+d",odin.locations[i][j].value);
                     wattroff(odin.locations[i][j].win,COLOR_PAIR(3));
                 }
                 else 
                 {
                     box(odin.locations[i][j].win,0,0);
-                    mvwprintw(odin.locations[i][j].win,2,2,"$_$%+d$",odin.locations[i][j].value);
+                    mvwprintw(odin.locations[i][j].win,2,2,"_ %+d",odin.locations[i][j].value);
                 }
             
             }
@@ -324,6 +324,7 @@ gint
 odinGameEngine (gint odinGameMode)
 {
     struct odinBoard odin;
+    GTimer *odinMoveTimer = g_timer_new();
     gint i,j;
     gint move;
 
@@ -338,6 +339,7 @@ odinGameEngine (gint odinGameMode)
     /*  place it on the extreme start of the matrix */
     odin.currentPositionRow = 0;
     odin.currentPositionCol = 0;
+    g_timer_stop(odinMoveTimer);
 
     odin.mainWin = newwin(GAMELINES + 6,GAMECOLS + 2,(getmaxy(stdscr) - GAMELINES)/2, (getmaxx(stdscr) - GAMECOLS)/2);
     box(odin.mainWin,0,0);
@@ -359,19 +361,18 @@ odinGameEngine (gint odinGameMode)
     }
 
     /*  change the state and begin!! */
+    cbreak();
+    noecho();
     odin.state = A;
     odinStatic(&odin);
     odinDrawBoard(odin);
     while (odin.state != AWIN && odin.state != BWIN ) 
     {
         /*  let him walk around the park and see */
+        /* :TODO:17/10/10 14:20:44:FranciscoD: Make this portion a different function */
         while(1)
         {
-            cbreak();
-            noecho();
             move = wgetch(odin.mainWin);
-            echo();
-            nocbreak();
 
             /* :TODO:12/10/10 23:12:59:FranciscoD: use switch later? */
             if(((move == '\n' || move == 'c') && odin.locations[odin.currentPositionRow][odin.currentPositionCol].state == FREE) || move == 'q')
@@ -422,17 +423,17 @@ odinGameEngine (gint odinGameMode)
         /* :TODO:12/10/10 23:53:40:FranciscoD: Add an exit confirmation box */
         else
         {
-            /* :TODO:13/10/10 00:05:38:FranciscoD: You might just be able to merge this entire thing into a method? */
             odinMakeMove(&odin);
             odinStatic(&odin);
             odinDrawBoard(odin);
         }
 
     }
-
-
+    wgetch(odin.mainWin);
     werase(odin.mainWin);
     wrefresh(odin.mainWin);
+    echo();
+    nocbreak();
     return 0;
 
 }		/* -----  end of function odinGameEngine  ----- */

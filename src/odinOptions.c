@@ -45,5 +45,14 @@
 gint
 odinOptions ( )
 {
+    WINDOW *odinNewGameWindow;
+
+    gchar *odinNewGameGreet[] = {"Options", "=============" };
+    gchar *odinNewGameOptions[] = {" NONE YET. WE ACCEPT FEATURE REQUESTS ", 0 };
+    gchar *odinNewGameMessages[] = {"Muhallo!!",0};
+    gint odinMenuSelect;
+
+    odinMenuSelect = odinMenusGeneric(&odinNewGameWindow, odinNewGameGreet, odinNewGameOptions, odinNewGameMessages);
+
     return 0;
 }		/* -----  end of function odinOptions  ----- */

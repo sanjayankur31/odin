@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  odinGameEngine.h
+ *       Filename:  odinExitWindow.h
  *
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  27/09/10 14:17:29
+ *        Created:  18/10/10 15:54:30
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -33,9 +33,7 @@
  *
  */
 
-#include "odinCommon.h"
 
-static gint debug;
+#include	"odinCommon.h"
 
-gint
-odinExit(struct odinBoard odin);
+gint static debug;

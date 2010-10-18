@@ -419,7 +419,12 @@ odinGameEngine (gint odinGameMode)
 
         /*  q to quit at anytime */
         if(move == 'q')
-            break;
+        {
+            if(!odinExit(odin))
+            {
+                break;
+            }
+        }
         /* :TODO:12/10/10 23:53:40:FranciscoD: Add an exit confirmation box */
         else
         {

@@ -191,7 +191,6 @@ odinDrawBoxes (struct odinBoard odin )
 gint
 odinDrawBoard (struct odinBoard odin)
 {
-    int i,j;
     odinDrawStatusWin(odin);
     odinDrawBoxes(odin);
     doupdate();
@@ -326,7 +325,7 @@ odinGameEngine (gint odinGameMode)
     struct odinBoard odin;
     GTimer *odinMoveTimer = g_timer_new();
     gint i,j;
-    gint move;
+    gint move, quit;
 
     /*-----------------------------------------------------------------------------
      *  initialize my board
@@ -418,18 +417,25 @@ odinGameEngine (gint odinGameMode)
         }
 
         /*  q to quit at anytime */
-        if(move == 'q')
-        {
-            if(!odinExit(odin))
-            {
-                break;
-            }
-        }
-        /* :TODO:12/10/10 23:53:40:FranciscoD: Add an exit confirmation box */
-        else
+        if(move != 'q')
         {
             odinMakeMove(&odin);
             odinStatic(&odin);
+            odinDrawBoard(odin);
+        }
+        else
+        {
+            quit = odinExit(odin);
+
+            if(quit == 1)
+            {
+                werase(odin.mainWin);
+                wrefresh(odin.mainWin);
+                echo();
+                nocbreak();
+                return 0;
+            }
+            redrawwin(odin.mainWin);
             odinDrawBoard(odin);
         }
 

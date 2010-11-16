@@ -59,6 +59,7 @@ enum odinGameState {NEW,A,B,AWIN,BWIN};
  *-----------------------------------------------------------------------------*/
 enum odinGameDimensions {GAMEORDER = 5, GAMELINES = 20, GAMECOLS = 50};
 
+
 /*-----------------------------------------------------------------------------
  *  This struct signifies the GameBoard. 
  *  A two dimensional array of this structure will hold my position states

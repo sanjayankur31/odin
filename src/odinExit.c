@@ -56,11 +56,19 @@ gint
 odinExit (struct odinBoard odin)
 {
     WINDOW *odinExitWindow;
+    gint rval = 0;
 
     gchar *odinExitGreet[] = {"Exit?", "=============" };
-    gchar *odinExitOptions[] = {"YES", "NO", 0 };
+    gchar *odinExitOptions[] = {"YES", "NO ", 0 };
     gchar *odinExitMessages[] = {"Quit game", "Go back and continue",0};
 
-    return (odinMenusGeneric(&odinExitWindow, odinExitGreet, odinExitOptions, odinExitMessages));
+    rval = odinMenusGeneric(&odinExitWindow, odinExitGreet, odinExitOptions, odinExitMessages);
+    /*-----------------------------------------------------------------------------
+     *  reset terminal to game mode
+     *-----------------------------------------------------------------------------*/
+    cbreak();
+    noecho();
+
+    return rval;
 
 }		/* -----  end of function odinExitWindow  ----- */

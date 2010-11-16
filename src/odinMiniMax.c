@@ -36,15 +36,80 @@
 
 #include	"odinMiniMax.h"
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  opp
+ *  Description:  return th opposite of the current player
+ * =====================================================================================
+ */
+gint
+opp (gint player )
+{
+    if(player == A)
+        return B;
+
+    return A;
+}		/* -----  end of function opp  ----- */
 
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  odinMiniMax
- *  Description:  
+ *  Description:  Implementation of the MiniMax algorithm
+ *                  
+ *                  - args : 
+ *                      GNode *odinPosition : current position
+ *                      gint odinDepth : current depth
+ *                      gint odinPlayer : the player whose turn it is to calculate
+ *                      struct odinBoard odin : required for deep enough
  * =====================================================================================
  */
-gint
-odinMiniMax ( <+argument list+> )
+struct odinRetStructure
+odinMiniMax (struct odinPosition position, gint odinDepth, gint odinPlayer, struct odinBoard odin)
 {
-    return <+return value+>;
+    gint odinBestValue,odinNewValue;
+    gint x, y;
+    struct odinRetStructure odinReturn ;
+    odinReturn.position.node = NULL;
+    odinReturn.value = 0;
+    x = y = 0;
+
+    if(odinDeepEnough(position, odinDepth, odin))
+    {
+        odinReturn.position.node = NULL;
+        /*  rubbish  */
+        odinReturn.position.x = odinReturn.position.y = 26;
+        odinReturn.value = odinGetStatic();
+        return odinReturn;
+    }
+
+    /*-----------------------------------------------------------------------------
+     *  need to pass the address of odinPosition since move gen will generate 
+     *  children as successors
+     *-----------------------------------------------------------------------------*/
+    if(odinMoveGen(&position,odinPlayer) == NULL)
+            return odinReturn;
+
+    /*-----------------------------------------------------------------------------
+     *  least value of static is 1
+     *-----------------------------------------------------------------------------*/
+    odinBestValue = 1;
+
+    odinSibling = g_node_first_child(position.node);
+
+    while(odinSibling != NULL)
+    {
+        odinReturn = odinMiniMax(odinSibling, odinDepth +1, opp(odinPlayer));
+        odinNewVal = odinReturn.value;
+
+        if(odinNewVal > odinBestValue)
+        {
+            odinBestValue = odinNewValue;
+            odinBestPath =  odinReturn.node;
+        }
+
+        odinSibling = g_node_next_sibling(position.node);
+    }
+
+    return odinReturn;
+
 }		/* -----  end of function odinMiniMax  ----- */

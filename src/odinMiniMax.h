@@ -37,3 +37,19 @@
 #include	"odinCommon.h"
 
 gint static debug;
+
+/*-----------------------------------------------------------------------------
+ *  to be used in MiniMax
+ *-----------------------------------------------------------------------------*/
+struct odinPosition
+{
+    GNode *node;
+    gint x, y;
+};
+
+struct odinRetStructure
+{
+    odinPosition position;
+    gint value;
+};
+}

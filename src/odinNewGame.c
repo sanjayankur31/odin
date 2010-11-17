@@ -67,8 +67,7 @@ odinNewGame ()
 /* :TODO:15/10/10 19:51:55:FranciscoD: integrate these once the minimax and alpha beta are done with */
         switch (odinMenuSelect) {
             case 1:	
-/*                 odinGameEngine (SINGLE);
- */
+                odinGameEngine (SINGLE);
                 break;
 
             case 2:	

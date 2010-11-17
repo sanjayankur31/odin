@@ -181,7 +181,7 @@ odinMiniMax (struct odinPosition position, gint odinDepth, gint odinPlayer, stru
     /*-----------------------------------------------------------------------------
      *  remember to make the last entry of the array 26,26
      *-----------------------------------------------------------------------------*/
-    while(odinSibling[i].x == 26 && odinSibling[i].y == 26)
+    while(odinSibling[i].x != 26 && odinSibling[i].y != 26)
     {
         odinReturn = odinMiniMax(odinSibling[i], odinDepth +1, opp(odinPlayer),odin);
         odinNewVal = odinReturn.value;

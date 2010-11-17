@@ -43,13 +43,11 @@ gint static debug;
  *-----------------------------------------------------------------------------*/
 struct odinPosition
 {
-    GNode *node;
     gint x, y;
 };
 
 struct odinRetStructure
 {
-    odinPosition position;
+    struct odinPosition position;
     gint value;
 };
-}

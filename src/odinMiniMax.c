@@ -14,9 +14,8 @@
  *        Company:  
  *
  * =====================================================================================
- */
-
-/* Copyright 2010 Ankur Sinha 
+ * 
+ * Copyright 2010 Ankur Sinha 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,8 +37,92 @@
 
 /* 
  * ===  FUNCTION  ======================================================================
+ *         Name:  odinMoveGen
+ *  Description:  Fill up the odinSibling array with empty locations and return the 
+ *                number of empty locations. Remember to remove the current position 
+ *                from the list.
+ * =====================================================================================
+ */
+gint
+odinMoveGen (struct odinPosition position, gint odinPlayer, struct odinPosition odinSibling[26], struct odinBoard *odin)
+{
+    gint count = 0;
+    gint i,j;
+
+    odin->locations[position.x][position.y].state = CONSIDERED;
+
+    for ( i = 0; i < GAMEORDER; i += 1 ) 
+    {
+        for ( j = 0; j < GAMEORDER; j += 1 ) 
+        {
+            if(odin->locations[i][j].state == FREE)
+            {
+                odinSibling[count].x = i;
+                odinSibling[count++].y = j;
+            }
+        }
+    }
+
+
+    return count;
+}		/* -----  end of function odinMoveGen  ----- */
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  odinGetStatic
+ *  Description:  Mark the current location as "CONSIDERED" and recalculate the static
+ *                values for all the locations, then return the current location's 
+ *                static value.
+ *
+ *                TODO: will this screw up the minimax concept? At a glance, NO, but
+ *                I'll have to give it a closer look.
+ *
+ * =====================================================================================
+ */
+gint
+odinGetStatic (struct odinPosition position,gint odinPlayer, struct odinBoard *odin)
+{
+    odin->locations[position.x][position.y].state = CONSIDERED;
+
+    odinStatic(odin);
+
+    return odin->locations[position.x][position.y].value;
+}		/* -----  end of function odinGetStatic  ----- */
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  odinDeepEnough
+ *  Description:  I'm letting it generate nodes until it can, for example, if the depth
+ *                  is 1, I'll let it generate 24 more levels
+ *
+ *                  - args : 
+ *                      - struct odinPosition position
+ *                      - gint odinDepth
+ *                      - struct odinBoard odin
+ *
+ *                  - return : gboolean
+ *                      TRUE and FALSE as needed
+ * =====================================================================================
+ */
+gboolean
+odinDeepEnough (struct odinPosition position,gint odinDepth, struct odinBoard odin)
+{
+    if (odinDepth < odin.emptyPositions)
+        return FALSE;
+
+    return TRUE;
+}		/* -----  end of function odinDeepEnough  ----- */
+
+/* 
+ * ===  FUNCTION  ======================================================================
  *         Name:  opp
  *  Description:  return th opposite of the current player
+ *
+ *                  - args : 
+ *                      - gint player : current player
+ *
+ *                  - return : gint
+ *                      - A or B
  * =====================================================================================
  */
 gint
@@ -61,32 +144,33 @@ opp (gint player )
  *                      gint odinDepth : current depth
  *                      gint odinPlayer : the player whose turn it is to calculate
  *                      struct odinBoard odin : required for deep enough
+ *
+ *                  - returns : struct odinRetStructure
+ *                      : containing the resultant structure
  * =====================================================================================
  */
 struct odinRetStructure
-odinMiniMax (struct odinPosition position, gint odinDepth, gint odinPlayer, struct odinBoard odin)
+odinMiniMax (struct odinPosition position, gint odinDepth, gint odinPlayer, struct odinBoard *odin)
 {
-    gint odinBestValue,odinNewValue;
-    gint x, y;
-    struct odinRetStructure odinReturn ;
-    odinReturn.position.node = NULL;
+    gint odinBestValue,odinNewVal,i = 0;
+    struct odinPosition odinBestPath;
+    struct odinPosition odinSibling[26];
+    struct odinRetStructure odinReturn;
     odinReturn.value = 0;
-    x = y = 0;
 
-    if(odinDeepEnough(position, odinDepth, odin))
+    if(odinDeepEnough(position, odinDepth, *odin))
     {
-        odinReturn.position.node = NULL;
         /*  rubbish  */
         odinReturn.position.x = odinReturn.position.y = 26;
-        odinReturn.value = odinGetStatic();
+        /*  returns the current positions static value */
+        odinReturn.value = odinGetStatic(position, odinPlayer, odin);
         return odinReturn;
     }
 
     /*-----------------------------------------------------------------------------
-     *  need to pass the address of odinPosition since move gen will generate 
-     *  children as successors
+     *  odinPosition is passed and the odinSibling array is filled with empty positions 
      *-----------------------------------------------------------------------------*/
-    if(odinMoveGen(&position,odinPlayer) == NULL)
+    if(odinMoveGen(position,odinPlayer,odinSibling, odin) == 0)
             return odinReturn;
 
     /*-----------------------------------------------------------------------------
@@ -94,20 +178,21 @@ odinMiniMax (struct odinPosition position, gint odinDepth, gint odinPlayer, stru
      *-----------------------------------------------------------------------------*/
     odinBestValue = 1;
 
-    odinSibling = g_node_first_child(position.node);
-
-    while(odinSibling != NULL)
+    /*-----------------------------------------------------------------------------
+     *  remember to make the last entry of the array 26,26
+     *-----------------------------------------------------------------------------*/
+    while(odinSibling[i].x == 26 && odinSibling[i].y == 26)
     {
-        odinReturn = odinMiniMax(odinSibling, odinDepth +1, opp(odinPlayer));
+        odinReturn = odinMiniMax(odinSibling[i], odinDepth +1, opp(odinPlayer),odin);
         odinNewVal = odinReturn.value;
 
         if(odinNewVal > odinBestValue)
         {
-            odinBestValue = odinNewValue;
-            odinBestPath =  odinReturn.node;
+            odinBestValue = odinNewVal;
+            odinBestPath =  odinReturn.position;
         }
 
-        odinSibling = g_node_next_sibling(position.node);
+        i++;
     }
 
     return odinReturn;

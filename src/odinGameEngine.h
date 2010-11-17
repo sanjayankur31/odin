@@ -39,3 +39,6 @@ static gint debug;
 
 gint
 odinExit(struct odinBoard odin);
+
+struct odinRetStructure
+odinMiniMax (struct odinPosition position, gint odinDepth, gint odinPlayer, struct odinBoard *odin);

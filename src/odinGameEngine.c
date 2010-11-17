@@ -207,6 +207,7 @@ odinDrawBoard (struct odinBoard odin)
 gint
 odinMakeMove (struct odinBoard *odin)
 {
+    odin->emptyPositions += 1;
 
     /*  check the other locations and update */
     if(odin->state == A ) 
@@ -325,7 +326,9 @@ odinGameEngine (gint odinGameMode)
     struct odinBoard odin;
     GTimer *odinMoveTimer = g_timer_new();
     gint i,j;
-    gint move, quit;
+    gint move, quit, ia, ja, done;
+    struct odinRetStructure miniReturn;
+    struct odinPosition position;
 
     /*-----------------------------------------------------------------------------
      *  initialize my board
@@ -365,12 +368,23 @@ odinGameEngine (gint odinGameMode)
     odin.state = A;
     odinStatic(&odin);
     odinDrawBoard(odin);
-    while (odin.state != AWIN && odin.state != BWIN ) 
+    while (1)
     {
+        if(odin.state == AWIN || odin.state == BWIN ) 
+            break;
+
         /*  let him walk around the park and see */
         /* :TODO:17/10/10 14:20:44:FranciscoD: Make this portion a different function */
         while(1)
         {
+            move = '$';
+
+            if(odinGameMode == SINGLE && odin.state == B)
+            {
+                break;
+            }
+
+            /*  only come here if it's A's move */
             move = wgetch(odin.mainWin);
 
             /* :TODO:12/10/10 23:12:59:FranciscoD: use switch later? */
@@ -419,6 +433,35 @@ odinGameEngine (gint odinGameMode)
         /*  q to quit at anytime */
         if(move != 'q')
         {
+            if(move == '$' && (odin.state != AWIN && odin.state != BWIN))
+            {
+                position.x = position.y = 6;
+                done = 0;
+                for (ia = 0; ia < 5; ia++)
+                {
+                    for (ja = 0; ja < 5; ja++)
+                    {
+                        if(odin.locations[ia][ja].state == FREE)
+                        {
+                            /*-----------------------------------------------------------------------------
+                             *  since it's player B, the static value will be in negative, most negative 
+                             *  is best, so I choose the best move and throw it into minimax
+                             *-----------------------------------------------------------------------------*/
+                            if(odin.locations[ia][ja].value < done)
+                            {
+                                position.x = ia;
+                                position.y = ja;
+                                done = odin.locations[ia][ja].value;
+                            }
+                        }
+                    }
+                }
+
+                sleep(1);
+                miniReturn = odinMiniMax(position,25-odin.emptyPositions, B, &odin);
+                odin.currentPositionRow = miniReturn.position.x;
+                odin.currentPositionCol = miniReturn.position.y;
+            }
             odinMakeMove(&odin);
             odinStatic(&odin);
             odinDrawBoard(odin);

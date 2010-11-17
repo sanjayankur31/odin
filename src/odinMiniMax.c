@@ -44,7 +44,7 @@
  * =====================================================================================
  */
 gint
-odinMoveGen (struct odinPosition position, gint odinPlayer, struct odinPosition odinSibling[26], struct odinBoard *odin)
+odinMoveGen (struct odinPosition position, gint odinPlayer, struct odinPosition odinSibling[], struct odinBoard *odin)
 {
     gint count = 0;
     gint i,j;
@@ -82,7 +82,8 @@ odinMoveGen (struct odinPosition position, gint odinPlayer, struct odinPosition 
 gint
 odinGetStatic (struct odinPosition position,gint odinPlayer, struct odinBoard *odin)
 {
-    odin->locations[position.x][position.y].state = CONSIDERED;
+    if(odin->locations[position.x][position.y].state == FREE)
+        odin->locations[position.x][position.y].state = CONSIDERED;
 
     odinStatic(odin);
 
@@ -105,9 +106,9 @@ odinGetStatic (struct odinPosition position,gint odinPlayer, struct odinBoard *o
  * =====================================================================================
  */
 gboolean
-odinDeepEnough (struct odinPosition position,gint odinDepth, struct odinBoard odin)
+odinDeepEnough (gint odinDepth, struct odinBoard odin)
 {
-    if (odinDepth < odin.emptyPositions)
+    if (odinDepth + odin.emptyPositions < 25)
         return FALSE;
 
     return TRUE;
@@ -154,14 +155,15 @@ odinMiniMax (struct odinPosition position, gint odinDepth, gint odinPlayer, stru
 {
     gint odinBestValue,odinNewVal,i = 0;
     struct odinPosition odinBestPath;
-    struct odinPosition odinSibling[26];
+    struct odinPosition odinSibling[25];
     struct odinRetStructure odinReturn;
     odinReturn.value = 0;
 
-    if(odinDeepEnough(position, odinDepth, *odin))
+    if(odinDeepEnough(odinDepth, *odin))
     {
         /*  rubbish  */
-        odinReturn.position.x = odinReturn.position.y = 26;
+        odinReturn.position.x = position.x;
+        odinReturn.position.y = position.y;
         /*  returns the current positions static value */
         odinReturn.value = odinGetStatic(position, odinPlayer, odin);
         return odinReturn;
@@ -174,7 +176,7 @@ odinMiniMax (struct odinPosition position, gint odinDepth, gint odinPlayer, stru
             return odinReturn;
 
     /*-----------------------------------------------------------------------------
-     *  least value of static is 1
+     * it's player B, so the static will return -ve values, we need the smallest 
      *-----------------------------------------------------------------------------*/
     odinBestValue = 1;
 
@@ -186,7 +188,7 @@ odinMiniMax (struct odinPosition position, gint odinDepth, gint odinPlayer, stru
         odinReturn = odinMiniMax(odinSibling[i], odinDepth +1, opp(odinPlayer),odin);
         odinNewVal = odinReturn.value;
 
-        if(odinNewVal > odinBestValue)
+        if(odinNewVal < odinBestValue)
         {
             odinBestValue = odinNewVal;
             odinBestPath =  odinReturn.position;

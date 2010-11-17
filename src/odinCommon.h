@@ -88,3 +88,16 @@ struct odinBoard
     gint currentPositionCol;
 };
 
+/*-----------------------------------------------------------------------------
+ *  to be used in MiniMax
+ *-----------------------------------------------------------------------------*/
+struct odinPosition
+{
+    gint x, y;
+};
+
+struct odinRetStructure
+{
+    struct odinPosition position;
+    gint value;
+};

@@ -207,8 +207,6 @@ odinDrawBoard (struct odinBoard odin)
 gint
 odinMakeMove (struct odinBoard *odin)
 {
-    odin->emptyPositions += 1;
-
     /*  check the other locations and update */
     if(odin->state == A ) 
     {
@@ -373,19 +371,19 @@ odinGameEngine (gint odinGameMode)
         if(odin.state == AWIN || odin.state == BWIN ) 
             break;
 
+        move = 'x';
+
         /*  let him walk around the park and see */
         /* :TODO:17/10/10 14:20:44:FranciscoD: Make this portion a different function */
         while(1)
         {
-            move = '$';
-
             if(odinGameMode == SINGLE && odin.state == B)
             {
+                /*  only come here if it's A's move */
                 break;
             }
-
-            /*  only come here if it's A's move */
             move = wgetch(odin.mainWin);
+
 
             /* :TODO:12/10/10 23:12:59:FranciscoD: use switch later? */
             if(((move == '\n' || move == 'c') && odin.locations[odin.currentPositionRow][odin.currentPositionCol].state == FREE) || move == 'q')
@@ -433,7 +431,7 @@ odinGameEngine (gint odinGameMode)
         /*  q to quit at anytime */
         if(move != 'q')
         {
-            if(move == '$' && (odin.state != AWIN && odin.state != BWIN))
+            if(move == 'x' && (odin.state != AWIN && odin.state != BWIN))
             {
                 position.x = position.y = 6;
                 done = 0;

@@ -13,8 +13,36 @@
 
 The needed dependencies are:
 
+- linux OS
 - ncurses
 - glib
 - colour support on terminal
 
 That's all you need to build and play it!
+
+Install the deps, 
+
+on Fedora : 
+
+$ su -c 'yum install glib2-devel ncurses-devel'
+
+./configure
+make && make install
+
+make install must be run as root. 
+
+To install it to the user dir, use the configure flags:
+
+./configure --help
+
+simplest is
+
+mkdir ~/dump
+./configure --prefix=~/dump
+
+make 
+
+make install
+
+
+
